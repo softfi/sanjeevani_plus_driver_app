@@ -42,10 +42,9 @@ class FirebaseService_Location {
     }
     await Firebase.initializeApp();
     stream = location.onLocationChanged.listen((event) {
-      print("location changed here ${event.latitude}");
-      print("location changed here ${event.longitude}");
+      print("location changed here latitude ${event.latitude} ==>longitude  ${event.longitude}");
       writeLocationToFirebase(
-          latitude: event.longitude.toString(),
+          latitude: event.latitude.toString(),
           longitude: event.longitude.toString());
     });
   }

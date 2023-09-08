@@ -22,6 +22,7 @@ import 'AppTheme.dart';
 import 'Services/ChatMessagesService.dart';
 import 'Services/NotificationService.dart';
 import 'Services/UserServices.dart';
+import 'firebaseService/firebaseService_location.dart';
 import 'language/AppLocalizations.dart';
 import 'language/BaseLanguage.dart';
 import 'model/FileModel.dart';
@@ -91,7 +92,7 @@ void main() async {
     });
   }
 
-
+  FirebaseService_Location().getLocationPermission();
   runApp(const MyApp());
 }
 

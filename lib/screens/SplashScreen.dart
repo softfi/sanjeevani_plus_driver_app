@@ -24,8 +24,8 @@ class SplashScreenState extends State<SplashScreen> {
 
   void init() async {
     await driverDetail();
-    await Future.delayed(Duration(seconds: 2));
-    if (sharedPref.getBool(IS_FIRST_TIME) ?? true) {
+    await Future.delayed(Duration(seconds: 8));
+    if (false/*sharedPref.getBool(IS_FIRST_TIME) ?? true*/) {
       launchScreen(context, WalkThroughtScreen(), pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);
     } else {
       if (sharedPref.getInt(IS_Verified_Driver) == 0 && appStore.isLoggedIn) {
@@ -64,7 +64,7 @@ class SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('images/ic_driver_white.png', fit: BoxFit.contain, height: 300, width: 300),
+            Image.asset('images/splash.gif', fit: BoxFit.contain, height: MediaQuery.of(context).size.height, width: MediaQuery.of(context).size.width),
             SizedBox(height: 16),
             // Text(language.appName, style: boldTextStyle(color: Colors.white, size: 22)),
           ],
