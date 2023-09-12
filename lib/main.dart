@@ -30,6 +30,13 @@ import 'model/LanguageDataModel.dart';
 import 'screens/NoInternetScreen.dart';
 import 'utils/Extensions/app_common.dart';
 
+
+
+
+//oneSingal appID //5db8f727-73d4-4850-8a85-e617cef3a12c
+//oneSignal Api Key //NWYxMDEwNmEtNGYwMi00OTk0LWE4MDctMGFiYTRlZTRiNWY2
+
+
 AppStore appStore = AppStore();
 late SharedPreferences sharedPref;
 Color textPrimaryColorGlobal = textPrimaryColor;

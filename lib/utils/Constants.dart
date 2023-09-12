@@ -15,11 +15,11 @@ const mBaseUrl = "$DOMAIN_URL/api/";
 
 final client = MqttServerClient.withPort("YOUR_MQTT_URL", "", 1883);
 
-const mOneSignalAppIdRider = 'ADD_YOUR_RIDER_OneSignalApp';
-const mOneSignalRestKeyRider = 'ADD_YOUR_RIDER_OneSignalRestKey';
+const mOneSignalAppIdRider = 'd785991a-4cb4-475d-a433-7171ffa5b5a5';
+const mOneSignalRestKeyRider = 'ZTZjY2E0NjUtNmZkNy00MDIwLTg4ZjItOTc4NTBiMDg5ZDYw';
 
-const mOneSignalAppIdDriver = 'ADD_YOUR_DRIVER_OneSignalApp';
-const mOneSignalRestKeyDriver = 'ADD_YOUR_DRIVER_OneSignalRestKey';
+const mOneSignalAppIdDriver = '5db8f727-73d4-4850-8a85-e617cef3a12c';
+const mOneSignalRestKeyDriver = 'NWYxMDEwNmEtNGYwMi00OTk0LWE4MDctMGFiYTRlZTRiNWY2';
 
 
 const PRESENT_TOP_UP_AMOUNT_CONST = '10|20|30';
