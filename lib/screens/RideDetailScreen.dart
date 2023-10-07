@@ -117,22 +117,29 @@ class RideDetailScreenState extends State<RideDetailScreen> {
                                 ),
                               ],
                             ),
-                            inkWellWidget(
+                            InkWell(
                               onTap: () {
                                 generateInvoiceCall(riderModel, payment: payment);
                                 print("INVOICE ======>  $riderModel");
                                 print("INVOICE ======>  $payment");
                               },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(language.invoice, style: primaryTextStyle(color: primaryColor)),
-                                  SizedBox(width: 4),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 2),
-                                    child: Icon(MaterialIcons.file_download, size: 18, color: primaryColor),
-                                  ),
-                                ],
+                              child: inkWellWidget(
+                                onTap: () {
+                                  generateInvoiceCall(riderModel, payment: payment);
+                                  print("INVOICE ======>  $riderModel");
+                                  print("INVOICE ======>  $payment");
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(language.invoice, style: primaryTextStyle(color: primaryColor)),
+                                    SizedBox(width: 4),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 2),
+                                      child: Icon(MaterialIcons.file_download, size: 18, color: primaryColor),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -406,12 +413,12 @@ class RideDetailScreenState extends State<RideDetailScreen> {
                 ],
               ),
             ),
-          Observer(builder: (context) {
-            return Visibility(
-              visible: appStore.isLoading,
-              child: loaderWidget(),
-            );
-          })
+          // Observer(builder: (context) {
+          //   return Visibility(
+          //     visible: appStore.isLoading,
+          //     child: loaderWidget(),
+          //   );
+          // })
         ],
       ),
     );

@@ -99,7 +99,7 @@ class FirebaseService_Location {
         disposeCallback:LocationCallbackHandler.disposeCallback,
         iosSettings: IOSSettings(
             accuracy: loc.LocationAccuracy.NAVIGATION, distanceFilter: 0),
-        autoStop: false,
+        autoStop: true,
         androidSettings:  bgSetting.AndroidSettings(
             accuracy: loc.LocationAccuracy.NAVIGATION,
             interval: 5,

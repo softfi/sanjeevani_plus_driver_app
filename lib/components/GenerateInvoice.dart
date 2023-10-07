@@ -90,8 +90,8 @@ generateInvoiceCall(RiderModel? riderModel, {Payment? payment}) async {
   );
 
   final pdfFile = await PdfInvoiceApi.generate(invoice);
-
-  PdfApi.openFile(pdfFile);
+print("sfdgdkng sdm g sdmkg s gds g sg sg sg sg s gsd gds gd gmsd g ms gmn    $pdfFile");
+  Future.delayed(Duration.zero).then((value) => PdfApi.openFile(pdfFile));
 
 }
 
@@ -105,8 +105,9 @@ class PdfApi {
     final bytes = await pdf.save();
     String path;
     if (Platform.isAndroid) {
-      Directory? directory = await getExternalStorageDirectory();
-      path = directory!.path;
+      // Directory? directory = await getExternalStorageDirectory();
+      Directory? directory = await getApplicationDocumentsDirectory();
+      path = directory.path;
     } else if (Platform.isIOS) {
       Directory directory = await getApplicationDocumentsDirectory();
       path = directory.path;
