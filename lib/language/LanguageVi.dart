@@ -1,6 +1,17 @@
 import 'BaseLanguage.dart';
 
 class LanguageVi extends BaseLanguage {
+
+  @override
+  String get helpAndSupport=>"giúp đỡ và hỗ trợ";
+
+  @override
+  String get verificationPending=>"تصدیق زیر التواء";
+
+
+  @override
+  String get plateNumberCannotBechanged => "   Plate number cannot be changed";
+
   @override
   String get appName => 'Người lái xe hùng mạnh';
 

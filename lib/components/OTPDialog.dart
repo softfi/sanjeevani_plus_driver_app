@@ -2,6 +2,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:taxi_driver/screens/VerifyDeliveryPersonScreen.dart';
@@ -77,6 +78,7 @@ class OTPDialogState extends State<OTPDialog> {
         } else {
           if (sharedPref.getInt(IS_Verified_Driver) == 1) {
             Navigator.pop(context);
+            Fluttertoast.showToast(msg: "LoggedIn Success");
             launchScreen(context, DriverDashboardScreen(), isNewTask: true);
           } else {
             Navigator.pop(context);

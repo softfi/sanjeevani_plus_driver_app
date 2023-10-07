@@ -1,6 +1,16 @@
 import 'BaseLanguage.dart';
 
 class LanguageAf extends BaseLanguage {
+
+  @override
+  String get helpAndSupport=>"hulp en ondersteuning";
+
+  @override
+  String get pla=>"hulp en ondersteuning";
+
+  @override
+  String get verificationPending=>"verifikasie Hangende";
+
   @override
   String get appName => 'Magtige bestuurder';
 
@@ -880,4 +890,7 @@ class LanguageAf extends BaseLanguage {
 
   @override
   String get youCanNotThisActionsPerformBecauseYourCurrentRideIsNotCompleted => 'U kan nie hierdie aksies uitvoer nie, want u huidige rit is nie voltooi nie';
+
+  @override
+  String get plateNumberCannotBechanged => "   Plate number cannot be changed";
 }

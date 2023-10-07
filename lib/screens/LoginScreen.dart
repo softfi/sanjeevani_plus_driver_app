@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_driver/screens/DriverDashboardScreen.dart';
 import 'package:taxi_driver/utils/Constants.dart';
 import 'package:taxi_driver/utils/Extensions/StringExtensions.dart';
@@ -87,6 +88,7 @@ class LoginScreenState extends State<LoginScreen> {
 
           _auth.signInWithEmailAndPassword(email: emailController.text, password: passController.text).then((value) {
             if (sharedPref.getInt(IS_Verified_Driver) == 1) {
+              Fluttertoast.showToast(msg: "LoggedIn Success");
               launchScreen(context, DriverDashboardScreen(), isNewTask: true, pageRouteAnimation: PageRouteAnimation.Slide);
             } else {
               launchScreen(context, VerifyDeliveryPersonScreen(isShow: true), isNewTask: true, pageRouteAnimation: PageRouteAnimation.Slide);
@@ -116,6 +118,7 @@ class LoginScreenState extends State<LoginScreen> {
               );
             } else {
               if (sharedPref.getInt(IS_Verified_Driver) == 1) {
+                Fluttertoast.showToast(msg: "LoggedIn Success");
                 launchScreen(context, DriverDashboardScreen(), isNewTask: true, pageRouteAnimation: PageRouteAnimation.Slide);
               } else {
                 launchScreen(context, VerifyDeliveryPersonScreen(isShow: true), isNewTask: true, pageRouteAnimation: PageRouteAnimation.Slide);

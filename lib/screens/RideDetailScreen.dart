@@ -1,3 +1,4 @@
+
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -119,6 +120,8 @@ class RideDetailScreenState extends State<RideDetailScreen> {
                             inkWellWidget(
                               onTap: () {
                                 generateInvoiceCall(riderModel, payment: payment);
+                                print("INVOICE ======>  $riderModel");
+                                print("INVOICE ======>  $payment");
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -413,4 +416,7 @@ class RideDetailScreenState extends State<RideDetailScreen> {
       ),
     );
   }
+
+
+
 }

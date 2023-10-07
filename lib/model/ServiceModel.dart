@@ -8,7 +8,7 @@ class ServiceModel {
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) {
     return ServiceModel(
-      data: json['data'] != null ? (json['data'] as List).map((i) => ServiceList.fromJson(i)).toList() : null,
+      data: json['data']['data'] != null ? (json['data']['data'] as List).map((i) => ServiceList.fromJson(i)).toList() : null,
       pagination: json['pagination'] != null ? PaginationModel.fromJson(json['pagination']) : null,
     );
   }

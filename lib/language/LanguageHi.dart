@@ -822,6 +822,16 @@ class LanguageHi extends BaseLanguage {
   String get fromDate => 'की तिथि से';
 
   @override
+  String get helpAndSupport=>"सहायता और समर्थन";
+
+  @override
+  String get verificationPending=>"सत्यापन लंबित";
+
+  @override
+  String get plateNumberCannotBechanged => "   प्लेट नंबर नहीं बदला जा सकता";
+
+
+  @override
   String get to => 'सेवा';
 
   @override

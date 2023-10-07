@@ -103,19 +103,20 @@ class SettingScreenState extends State<SettingScreen> {
                   launchScreen(context, LanguageScreen(), pageRouteAnimation: PageRouteAnimation.Slide);
                 }),
                 settingItemWidget(Icons.assignment_outlined, language.privacyPolicy, () {
+                  print("34oi5y349856 $privacyPolicy");
                   if (privacyPolicy != null) {
-                    launchUrl(Uri.parse(privacyPolicy!));
+                    launchScreen(context, TermsConditionScreen(title: language.privacyPolicy, subtitle: privacyPolicy), pageRouteAnimation: PageRouteAnimation.Slide);
                   } else {
                     toast(language.txtURLEmpty);
                   }
                 }),
-                settingItemWidget(Icons.help_outline, language.helpSupport, () {
+               /* settingItemWidget(Icons.help_outline, language.helpSupport, () {
                   if (mHelpAndSupport != null) {
                     launchUrl(Uri.parse(mHelpAndSupport!));
                   } else {
                     toast(language.txtURLEmpty);
                   }
-                }),
+                }),*/
                 settingItemWidget(Icons.assignment_outlined, language.termsConditions, () {
                   if (termsCondition != null) {
                     launchScreen(context, TermsConditionScreen(title: language.termsConditions, subtitle: termsCondition), pageRouteAnimation: PageRouteAnimation.Slide);

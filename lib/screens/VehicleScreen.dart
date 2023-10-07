@@ -117,12 +117,19 @@ class VehicleScreenState extends State<VehicleScreen> {
                   ),
                   SizedBox(height: 16),
                   AppTextField(
+                    readOnly: true,
                     controller: carPlateNumberController,
                     textFieldType: TextFieldType.NAME,
                     errorThisFieldRequired: language.thisFieldRequired,
                     decoration: inputDecoration(context, label: language.carPlateNumber),
                   ),
-                  SizedBox(height: 16),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(language.plateNumberCannotBechanged,style: TextStyle(
+                      color: primaryColor,fontSize: 10
+                    ),),
+                  ),
+                  SizedBox(height: 20),
                   AppTextField(
                     controller: carProductionYearController,
                     textFieldType: TextFieldType.PHONE,

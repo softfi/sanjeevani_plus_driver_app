@@ -1,6 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:taxi_driver/Services/AuthService.dart';
@@ -142,6 +143,7 @@ class DriverRegisterScreenState extends State<DriverRegisterScreen> {
         )
             .then((res) async {
           appStore.setLoading(false);
+
         }).catchError((e) {
           appStore.setLoading(false);
           toast(e.toString());
@@ -379,7 +381,7 @@ class DriverRegisterScreenState extends State<DriverRegisterScreen> {
                                   ),
                                   child: Row(
                                     children: [
-                                      commonCachedNetworkImage(e.serviceImage,
+                                      commonCachedNetworkImage(imagePath+(e.serviceImage??""),
                                           fit: BoxFit.contain,
                                           height: 50,
                                           width: 50),
@@ -426,6 +428,9 @@ class DriverRegisterScreenState extends State<DriverRegisterScreen> {
                   content: Form(
                     key: formKeys[3],
                     child: AppTextField(
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(4)
+                      ],
                         textFieldType: TextFieldType.PHONE,
                         controller: carProductionController),
                   ),
@@ -439,6 +444,10 @@ class DriverRegisterScreenState extends State<DriverRegisterScreen> {
                   content: Form(
                     key: formKeys[4],
                     child: AppTextField(
+                      inputFormatters: [
+
+                      ],
+                        validator: (value) =>RegExp('^[A-Z|a-z]{2}\s?[0-9]{1,2}\s?[A-Z|a-z]{0,3}\s?[0-9]{4}').hasMatch(value!)?null:"Invalid number",
                         textFieldType: TextFieldType.NAME,
                         controller: carPlateController),
                   ),

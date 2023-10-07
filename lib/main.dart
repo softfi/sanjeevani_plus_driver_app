@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -98,6 +99,7 @@ void main() async {
       }
     });
   }
+
 
   FirebaseService_Location().getLocationPermission();
   runApp(const MyApp());

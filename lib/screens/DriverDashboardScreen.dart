@@ -42,6 +42,7 @@ import '../utils/Images.dart';
 import 'BankInfoScreen.dart';
 import 'EarningScreen.dart';
 import 'EmergencyContactScreen.dart';
+import 'HelpAndSupportScreen.dart';
 import 'LocationPermissionScreen.dart';
 import 'MyRidesScreen.dart';
 import 'MyWalletScreen.dart';
@@ -49,6 +50,8 @@ import 'NotificationScreen.dart';
 import 'ReviewScreen.dart';
 import 'SettingScreen.dart';
 import 'VehicleScreen.dart';
+
+int RIDE_REQUEST_ID_BY_ALOK = 0;
 
 class DriverDashboardScreen extends StatefulWidget {
   @override
@@ -113,7 +116,13 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
     }
   }
 
+  Timer? newTimer;
+
   void init() async {
+    newTimer = Timer.periodic(Duration(seconds: 3), (timer) {
+      print("==================> continuously called");
+      getCurrentRequest();
+    });
     LiveStream().on(CHANGE_LANGUAGE, (p0) {
       setState(() {});
     });
@@ -138,11 +147,15 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
             '10|20|30');
       }
 
-      startTime = int.parse(value.rideSetting!
-              .firstWhere(
-                  (element) => element.key == MAX_TIME_FOR_DRIVER_SECOND)
-              .value ??
-          '60');
+      setState(() {
+        startTime = int.parse(value.rideSetting!
+                .firstWhere(
+                    (element) => element.key == MAX_TIME_FOR_DRIVER_SECOND)
+                .value ??
+            '60');
+      });
+      startTimer();
+      print("thi dssfsfmsdnfsd ngb ndsg sgn gng bn  $startTime");
       print("SymbolSymbol" + value.currencySetting!.symbol.toString());
       if (value.currencySetting != null) {
         appStore
@@ -234,7 +247,7 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
         startNewTimer();
         startTimer();
       } else {
-        //timerData.cancel();
+        timerData?.cancel();
         sharedPref.remove(IS_TIME2);
         duration = startTime;
         setState(() {});
@@ -247,6 +260,10 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
     timerData = new Timer.periodic(
       oneSec,
       (Timer timer) {
+        if (ModalRoute.of(context)!.isCurrent) {
+        } else {
+          timerData?.cancel();
+        }
         print("90999090909090909090099090900");
         if (duration == 0) {
           duration = startTime;
@@ -278,12 +295,17 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
 
   Future<void> startNewTimer() async {
     const oneSec = const Duration(seconds: 1);
-    timerData = new Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        getCurrentRequest();
-      },
-    );
+    if (timerData == null)
+      timerData = Timer.periodic(
+        oneSec,
+        (Timer timer) {
+          if (ModalRoute.of(context)!.isCurrent) {
+          } else {
+            timerData?.cancel();
+          }
+          // getCurrentRequest();
+        },
+      );
   }
 
   Future<void> setSourceAndDestinationIcons() async {
@@ -302,6 +324,7 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
   }
 
   Future<void> driverStatus({int? status}) async {
+
     appStore.setLoading(true);
     Map req = {
       "status": "active",
@@ -328,7 +351,8 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
     appStore.setLoading(true);
     await getCurrentRideRequest().then((value) async {
       appStore.setLoading(false);
-      //print("onRideRequest  ${value.onRideRequest}");
+      print(
+          "onRideRequest 244234erwerwer42343erwerwer4234rewr  ${value.onRideRequest}");
       if (value.onRideRequest != null) {
         appStore.currentRiderRequest = value.onRideRequest;
         servicesListData = value.onRideRequest;
@@ -341,26 +365,30 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
           if (servicesListData!.status == COMPLETED &&
               servicesListData!.isDriverRated == 0) {
             //change here also
-
-            /*launchScreen(context, DetailScreen(),
-                pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);*/
-            launchScreen(
+            RIDE_REQUEST_ID_BY_ALOK = servicesListData!.id!;
+            launchScreen(context, DetailScreen(),
+                pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);
+            /*   launchScreen(
                 context,
                 ReviewScreen(
                     rideId: value.onRideRequest!.id!, currentData: value),
                 pageRouteAnimation: PageRouteAnimation.Slide,
-                isNewTask: true);
+                isNewTask: true);*/
           } else if (value.payment != null &&
               value.payment!.paymentStatus == PENDING) {
             launchScreen(context, DetailScreen(),
                 pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);
           }
         }
+      } else if (value.payment != null &&
+          value.payment!.paymentStatus == PENDING) {
+        launchScreen(context, DetailScreen(),
+            pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);
       } else {
-        if (value.payment != null && value.payment!.paymentStatus == PENDING) {
-          launchScreen(context, DetailScreen(),
-              pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);
-        }
+        // launchScreen(context, Dash(),
+        //     pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);
+        shouldShowFloatingAction = false;
+        servicesListData = null;
       }
       await changeStatus();
     }).catchError((error) {
@@ -422,19 +450,24 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
     appStore.setLoading(true);
     Map req = {
       "id": servicesListData!.id,
-      if (!deCline) "driver_id": sharedPref.getInt(USER_ID),
+      ///comment by dharmendra at 7 oct  2023 12:29
+      /*if (!deCline) */"driver_id": sharedPref.getInt(USER_ID),
       "is_accept": deCline ? "0" : "1",
     };
     debugPrint("================34iou654io ${req}");
     await rideRequestResPond(request: req).then((value) async {
       appStore.setLoading(false);
-      print("yha ghusa");
+      print("CANCELED ===============================> ${value}" );
+      //print("RIDE CANCEL VALUE ===============================> ${value.orderId}" );
+      //print("RIDE CANCEL VALUE ===============================> ${value.status}" );
       getCurrentRequest();
       if (deCline) {
         print("============================================enter in decline");
         setState(() {
           servicesListData = null;
         });
+        print(
+            "============================================enter in decline $servicesListData");
         _polyLines.clear();
         sharedPref.remove(ON_RIDE_MODEL);
         sharedPref.remove(IS_TIME2);
@@ -442,6 +475,23 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
         setState(() {
           servicesListData = null;
         });
+      } else {
+        /* // i changed here for the external Google map launch
+        Position currentPosition = await Geolocator.getCurrentPosition();
+        String origin =
+            '${currentPosition.latitude},${currentPosition.longitude}';
+        String des =
+            '${servicesListData!.startLatitude},${servicesListData!.startLongitude}';
+        String destination =
+            '${currentPosition.latitude + 0.002},${currentPosition.longitude - 0.002}';
+
+        final Uri _url = Uri.parse(
+            'https://www.google.com/maps/dir/?api=1&origin=$origin&destination=$des&travelmode=driving&dir_action=navigate');
+
+        await launchUrl(
+          _url,
+          mode: LaunchMode.externalApplication,
+        );*/
       }
     }).catchError((error) {
       appStore.setLoading(false);
@@ -666,9 +716,9 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
         "is_available": 1,
       };
       updateStatus(req).then((value) {
-        Future.delayed(Duration(seconds: 5), () {
-          getCurrentRequest();
-        });
+        // Future.delayed(Duration(seconds: 5), () {
+        //   getCurrentRequest();
+        // });
         //getCurrentRequest();
         //
       });
@@ -678,7 +728,26 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
       };
       updateStatus(req).then((value) async {});
     }
-    await getCurrentRideRequest();
+    //await getCurrentRideRequest();
+  }
+
+  getDirectionFunction({required bool isStartRide}) async {
+    Position currentPosition = await Geolocator.getCurrentPosition();
+    String origin = '${currentPosition.latitude},${currentPosition.longitude}';
+    String des = isStartRide
+        ? '${servicesListData!.endLatitude},${servicesListData!.endLongitude}'
+        : '${servicesListData!.startLatitude},${servicesListData!.startLongitude}';
+    String destination =
+        '${currentPosition.latitude + 0.002},${currentPosition.longitude - 0.002}';
+    print(
+        "https://www.google.com/maps/dir/?api=1&origin=$origin&destination=$des&travelmode=driving&dir_action=navigate");
+    final Uri _url = Uri.parse(
+        'https://www.google.com/maps/dir/?api=1&origin=$origin&destination=$des&travelmode=driving&dir_action=navigate');
+
+    await launchUrl(
+      _url,
+      mode: LaunchMode.externalApplication,
+    );
   }
 
   /// WalletCheck
@@ -687,7 +756,7 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
       if (value.totalAmount! >= value.minAmountToGetRide!) {
         //
       } else {
-        showDialog(
+        /*showDialog(
           context: context,
           barrierDismissible: false,
           builder: (_) {
@@ -736,7 +805,7 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
               ),
             );
           },
-        );
+        );*/
       }
     });
   }
@@ -754,8 +823,13 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
     if (timerData == null) {
       sharedPref.getString(IS_TIME2);
     }
+    newTimer?.cancel();
     super.dispose();
   }
+
+  bool shouldShowFloatingAction = false;
+
+  bool isStartRide = false;
 
   @override
   Widget build(BuildContext context) {
@@ -771,6 +845,20 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
+        floatingActionButton: shouldShowFloatingAction
+            ? Align(
+                alignment: Alignment(1, 0.8),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    getDirectionFunction(isStartRide: isStartRide);
+                  },
+                  child: Icon(
+                    Icons.directions,
+                    color: Colors.white,
+                  ),
+                ),
+              )
+            : null,
         key: _scaffoldKey,
         drawer: Drawer(
           backgroundColor: Colors.white,
@@ -875,6 +963,13 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
                           pageRouteAnimation: PageRouteAnimation.Slide);
                     }),
                 DrawerWidget(
+                    title: language.helpAndSupport,
+                    iconData: 'images/customer_care.png',
+                    onTap: () {
+                      launchScreen(context, HelpAndSupport(),
+                          pageRouteAnimation: PageRouteAnimation.Slide);
+                    }),
+                DrawerWidget(
                     title: language.setting,
                     iconData: 'images/ic_setting.png',
                     onTap: () {
@@ -925,8 +1020,10 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
                     zoomControlsEnabled: false,
                     myLocationEnabled: true,
                     onMapCreated: onMapCreated,
-                    initialCameraPosition:
-                        CameraPosition(target: driverLocation!, zoom: 11.0),
+                    initialCameraPosition: CameraPosition(
+                      target: driverLocation!,
+                      zoom: 11.0,
+                    ),
                     markers: markers,
                     mapType: MapType.normal,
                     polylines: _polyLines,
@@ -937,7 +1034,7 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
                     bottom: 40,
                     child: FlutterSwitch(
                       value: isOffLine,
-                      width: 90,
+                      width: 100,
                       height: 35,
                       toggleSize: 25,
                       borderRadius: 30.0,
@@ -1021,8 +1118,8 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
                               child: Stack(
                                 children: [
                                   DraggableScrollableSheet(
-                                    initialChildSize: 0.40,
-                                    minChildSize: 0.40,
+                                    initialChildSize: 0.45,
+                                    minChildSize: 0.45,
                                     builder: (
                                       BuildContext context,
                                       ScrollController scrollController,
@@ -1288,13 +1385,9 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
                                                                           onAccept:
                                                                               (v) {
                                                                         //timerData.cancel();
-                                                                        sharedPref
-                                                                            .remove(ON_RIDE_MODEL);
-                                                                        sharedPref
-                                                                            .remove(IS_TIME2);
-                                                                        rideRequestAccept(
-                                                                            deCline:
-                                                                                true);
+                                                                        sharedPref.remove(ON_RIDE_MODEL);
+                                                                        sharedPref.remove(IS_TIME2);
+                                                                        rideRequestAccept(deCline: true);
                                                                         // Navigator.pop(
                                                                         //     context);
                                                                       });
@@ -1358,6 +1451,11 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
                                                                         sharedPref
                                                                             .remove(ON_RIDE_MODEL);
                                                                         rideRequestAccept();
+                                                                        setState(
+                                                                            () {
+                                                                          shouldShowFloatingAction =
+                                                                              true;
+                                                                        });
                                                                       });
                                                                     },
                                                                   ),
@@ -1375,11 +1473,11 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
                                           : SizedBox();
                                     },
                                   ),
-                                  Observer(builder: (context) {
-                                    return appStore.isLoading
-                                        ? loaderWidget()
-                                        : SizedBox();
-                                  })
+                                  // Observer(builder: (context) {
+                                  //   return appStore.isLoading
+                                  //       ? loaderWidget()
+                                  //       : SizedBox();
+                                  // })
                                 ],
                               ),
                             )
@@ -1858,6 +1956,10 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
                                                             rideRequest(
                                                                 status:
                                                                     IN_PROGRESS);
+                                                            setState(() {
+                                                              isStartRide =
+                                                                  true;
+                                                            });
                                                           }
                                                         },
                                                       )
@@ -1877,6 +1979,10 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
                                                 positiveText: language.yes,
                                                 negativeText: language.no,
                                                 onAccept: (v) {
+                                              setState(() {
+                                                shouldShowFloatingAction =
+                                                    false;
+                                              });
                                               appStore.setLoading(true);
                                               getUserLocation()
                                                   .then((value) async {
@@ -1906,10 +2012,10 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
                               ),
                             )
                       : SizedBox(),
-                  Visibility(
-                    visible: appStore.isLoading,
-                    child: loaderWidget(),
-                  ),
+                  // Visibility(
+                  //   visible: appStore.isLoading,
+                  //   child: loaderWidget(),
+                  // ),
                 ],
               )
             : loaderWidget(),

@@ -1,6 +1,16 @@
 import 'BaseLanguage.dart';
 
 class LanguageAr extends BaseLanguage {
+
+  @override
+  String get helpAndSupport=>"مساعدة و دعم";
+
+  @override
+  String get plateNumberCannotBechanged => "   Plate number cannot be changed";
+
+  @override
+  String get verificationPending=>"التحقق معلق";
+
   @override
   String get appName => 'سائق قوي';
 

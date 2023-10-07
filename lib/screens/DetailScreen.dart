@@ -22,6 +22,7 @@ import '../network/RestApis.dart';
 import '../utils/Common.dart';
 import '../utils/Extensions/ConformationDialog.dart';
 import '../utils/Images.dart';
+import 'ReviewScreen.dart';
 import 'RideHistoryScreen.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -52,23 +53,27 @@ class DetailScreenState extends State<DetailScreen> {
     await getCurrentRideRequest().then((value) async {
       appStore.setLoading(false);
       currentData = value;
+      currentData!.payment=Payment(
+        paymentType: CASH
+      );
       await orderDetailApi();
+      print("hri sdi kjfds fbf ${value.id}");
       setState(() {});
-    }).catchError((error) {
+    })/*.catchError((error) {
       appStore.setLoading(false);
       log(error.toString());
-    });
+    })*/;
   }
 
   Future<void> savePaymentApi() async {
     appStore.setLoading(true);
     Map req = {
-      "id": currentData!.payment!.id,
-      "rider_id": currentData!.payment!.riderId,
-      "ride_request_id": currentData!.payment!.rideRequestId,
+      "id": currentData?.payment?.id??riderModel!.paymentId,
+      "rider_id": currentData?.payment?.riderId??riderModel!.riderId,
+      "ride_request_id": currentData?.payment?.rideRequestId??RIDE_REQUEST_ID_BY_ALOK,
       "datetime": DateTime.now().toString(),
-      "total_amount": currentData!.payment!.totalAmount,
-      "payment_type": currentData!.payment!.paymentType,
+      "total_amount": currentData?.payment?.totalAmount??riderModel!.subtotal,
+      "payment_type": currentData?.payment?.paymentType??riderModel!.paymentType,
       "txn_id": "",
       "payment_status": "paid",
       "transaction_detail": ""
@@ -76,9 +81,74 @@ class DetailScreenState extends State<DetailScreen> {
     log(req);
     await savePayment(req).then((value) {
       appStore.setLoading(false);
-      launchScreen(context, DriverDashboardScreen(),
+      ///
+       getCurrentRideRequest().then((value) async {
+        appStore.setLoading(false);
+        //print("onRideRequest  ${value.onRideRequest}");
+        if (value.onRideRequest != null) {
+          appStore.currentRiderRequest = value.onRideRequest;
+          servicesListData = value.onRideRequest;
+
+          userDetail(value.onRideRequest!.riderId);
+
+          setState(() {});
+
+          if (servicesListData != null) {
+            if (servicesListData!.status == COMPLETED &&
+                servicesListData!.isDriverRated == 0) {
+              //change here also
+              RIDE_REQUEST_ID_BY_ALOK= servicesListData!.id!;
+              /*launchScreen(context, DetailScreen(),
+                  pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);*/
+                 launchScreen(
+                context,
+                ReviewScreen(
+                    rideId: value.onRideRequest!.id!, currentData: value),
+                pageRouteAnimation: PageRouteAnimation.Slide,
+                isNewTask: true);
+            } else if (value.payment != null &&
+                value.payment!.paymentStatus == PENDING) {
+              launchScreen(context, DetailScreen(),
+                  pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);
+            }
+          }
+        } else {
+          if (value.payment != null && value.payment!.paymentStatus == PENDING) {
+            launchScreen(context, DetailScreen(),
+                pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);
+          }
+        }
+        if (servicesListData == null) {
+          Map req = {
+            "is_available": 1,
+          };
+          updateStatus(req).then((value) {
+            Future.delayed(Duration(seconds: 10), () {
+              getCurrentRequest();
+            });
+            //getCurrentRequest();
+            //
+          });
+        } else {
+          Map req = {
+            "is_available": 0,
+          };
+          updateStatus(req).then((value) async {});
+        }
+        await getCurrentRideRequest();
+      }).catchError((error) {
+        toast(error.toString());
+
+        appStore.setLoading(false);
+
+        servicesListData = null;
+        setState(() {});
+      });
+
+
+     /* launchScreen(context, DriverDashboardScreen(),
           isNewTask: true,
-          pageRouteAnimation: PageRouteAnimation.SlideBottomTop);
+          pageRouteAnimation: PageRouteAnimation.SlideBottomTop);*/
     }).catchError((error) {
       appStore.setLoading(false);
       log(error.toString());
@@ -87,10 +157,10 @@ class DetailScreenState extends State<DetailScreen> {
 
   Future<void> orderDetailApi() async {
     appStore.setLoading(true);
-    await rideDetail(orderId: currentData!.payment!.rideRequestId)
+    await rideDetail(orderId: currentData?.payment?.rideRequestId??RIDE_REQUEST_ID_BY_ALOK)
         .then((value) {
       appStore.setLoading(false);
-
+print("fsfdfsd fsdfsdf sfsdfsdfsd fsfd $value");
       riderModel = value.data;
       payment = value.payment!;
       rideHistory = value.rideHistory!;
@@ -173,7 +243,7 @@ class DetailScreenState extends State<DetailScreen> {
   void setState(fn) {
     if (mounted) super.setState(fn);
   }
-
+  OnRideRequest? servicesListData;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -444,7 +514,7 @@ class DetailScreenState extends State<DetailScreen> {
                                     child: Text(language.duration,
                                         style: primaryTextStyle()),
                                   ),
-                                  Text('${riderModel!.duration} km',
+                                  Text('${riderModel!.duration}',
                                       style: primaryTextStyle()),
                                 ],
                               ),
@@ -552,8 +622,18 @@ class DetailScreenState extends State<DetailScreen> {
                             negativeText: language.no,
                             dialogType: DialogType.CONFIRMATION,
                             title: language.areYouSureCollectThisPayment,
-                            context, onAccept: (v) {
-                          savePaymentApi();
+                            context, onAccept: (v) async {
+                         await savePaymentApi();
+
+                          //////added by alok for the review in the end
+
+
+
+
+
+
+
+                          ///////
                         });
                       },
                     )
@@ -574,7 +654,7 @@ class DetailScreenState extends State<DetailScreen> {
                       },
                     ),
             )
-          : SizedBox(),
+          : SizedBox() ,
     );
   }
 
@@ -590,5 +670,72 @@ class DetailScreenState extends State<DetailScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> getCurrentRequest() async {
+    print("fn toi get getCurrentRequest getCurrentRequestgetCurrentRequest");
+    appStore.setLoading(true);
+    await getCurrentRideRequest().then((value) async {
+      appStore.setLoading(false);
+      //print("onRideRequest  ${value.onRideRequest}");
+      if (value.onRideRequest != null) {
+        appStore.currentRiderRequest = value.onRideRequest;
+        servicesListData = value.onRideRequest;
+
+        userDetail( value.onRideRequest!.riderId);
+
+        setState(() {});
+
+        if (servicesListData != null) {
+          if (servicesListData!.status == COMPLETED &&
+              servicesListData!.isDriverRated == 0) {
+            //change here also
+            RIDE_REQUEST_ID_BY_ALOK= servicesListData!.id!;
+            launchScreen(context, DetailScreen(),
+                pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);
+            /*   launchScreen(
+                context,
+                ReviewScreen(
+                    rideId: value.onRideRequest!.id!, currentData: value),
+                pageRouteAnimation: PageRouteAnimation.Slide,
+                isNewTask: true);*/
+          } else if (value.payment != null &&
+              value.payment!.paymentStatus == PENDING) {
+            launchScreen(context, DetailScreen(),
+                pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);
+          }
+        }
+      } else {
+        if (value.payment != null && value.payment!.paymentStatus == PENDING) {
+          launchScreen(context, DetailScreen(),
+              pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);
+        }
+      }
+      if (servicesListData == null) {
+        Map req = {
+          "is_available": 1,
+        };
+        updateStatus(req).then((value) {
+          Future.delayed(Duration(seconds: 5), () {
+            getCurrentRequest();
+          });
+          //getCurrentRequest();
+          //
+        });
+      } else {
+        Map req = {
+          "is_available": 0,
+        };
+        updateStatus(req).then((value) async {});
+      }
+      await getCurrentRideRequest();
+    }).catchError((error) {
+      toast(error.toString());
+
+      appStore.setLoading(false);
+
+      servicesListData = null;
+      setState(() {});
+    });
   }
 }

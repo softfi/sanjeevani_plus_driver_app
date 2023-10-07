@@ -152,7 +152,7 @@ class AboutScreenState extends State<AboutScreen> {
               SizedBox(height: 8),
               widget.settingModel.siteCopyright != null && widget.settingModel.siteCopyright!.isNotEmpty
                   ? Text(widget.settingModel.siteCopyright.validate(), style: secondaryTextStyle(), maxLines: 1)
-                  : Text('Copyright' + " @${DateTime.now().year} meetmighty", style: secondaryTextStyle(size: 12)),
+                  : Text('Copyright' + " @${DateTime.now().year} Tlam consultants private limited", style: secondaryTextStyle(size: 12)),
             ],
           ),
         ),

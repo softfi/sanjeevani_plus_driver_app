@@ -1,8 +1,19 @@
 import 'BaseLanguage.dart';
 
 class LanguageNl extends BaseLanguage {
+
+  @override
+  String get helpAndSupport=>"hulp en ondersteuning";
+
   @override
   String get appName => 'Machtige chauffeur';
+
+  @override
+  String get verificationPending=>"beripikasion Pending";
+
+
+  @override
+  String get plateNumberCannotBechanged => "   Plate number cannot be changed";
 
   @override
   String get welcomeBack => 'Welkom terug !';

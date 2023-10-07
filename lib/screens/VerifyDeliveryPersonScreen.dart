@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import 'package:taxi_driver/main.dart';
 import 'package:taxi_driver/utils/Colors.dart';
@@ -126,6 +127,10 @@ class VerifyDeliveryPersonScreenState
     sendMultiPartRequest(
       multiPartRequest,
       onSuccess: (data) async {
+        Fluttertoast.showToast(msg: "Document uploaded successfully");
+        Future.microtask(() => Future.delayed(Duration(seconds: 2))).then((value) {
+          Fluttertoast.showToast(msg: "Documents Under verification. We will notify you");
+        });
         await DriverDocument();
       },
       onError: (error) {
@@ -329,7 +334,7 @@ class VerifyDeliveryPersonScreenState
                                   borderRadius:
                                       BorderRadius.circular(defaultRadius),
                                   child: commonCachedNetworkImage(
-                                      driverDocumentList[index].driverDocument!,
+                                       driverDocumentList[index].driverDocument!,
                                       height: 200,
                                       width: MediaQuery.of(context).size.width,
                                       fit: BoxFit.cover),
@@ -432,6 +437,14 @@ class VerifyDeliveryPersonScreenState
                                           1,
                                       child: Icon(Icons.verified_user,
                                           color: Colors.green),
+                                    ),
+                                    Visibility(
+                                      visible: driverDocumentList[index]
+                                          .isVerified ==
+                                          0,
+                                      child: Text(language.verificationPending,style: TextStyle(
+                                        color: primaryColor
+                                      ),),
                                     ),
                                   ],
                                 ),

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:intl/intl.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
@@ -11,6 +12,7 @@ import '../main.dart';
 import '../model/CurrentRequestModel.dart';
 import '../model/RiderModel.dart';
 import '../utils/Constants.dart';
+import '../utils/Extensions/app_common.dart';
 
 generateInvoiceCall(RiderModel? riderModel, {Payment? payment}) async {
   List<InvoiceItem> list = [
@@ -90,6 +92,7 @@ generateInvoiceCall(RiderModel? riderModel, {Payment? payment}) async {
   final pdfFile = await PdfInvoiceApi.generate(invoice);
 
   PdfApi.openFile(pdfFile);
+
 }
 
 class PdfApi {
@@ -97,6 +100,8 @@ class PdfApi {
     required String name,
     required Document pdf,
   }) async {
+    print("8734658734${pdf}");
+    print("8734658734${pdf}");
     final bytes = await pdf.save();
     String path;
     if (Platform.isAndroid) {
@@ -117,9 +122,10 @@ class PdfApi {
 
   static Future openFile(File file) async {
     final url = file.path;
-
-    //await OpenFile.open(url);
+    print("87346587346587345 ${file.path}");
+    await OpenFile.open(url);
   }
+
 }
 
 class PdfInvoiceApi {
@@ -149,6 +155,7 @@ class PdfInvoiceApi {
 
     return PdfApi.saveDocument(
         name: 'Invoice_${invoice.info.number}.pdf', pdf: pdf);
+
   }
 
   static Widget buildHeader(Invoice invoice) {

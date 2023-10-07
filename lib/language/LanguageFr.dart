@@ -1,6 +1,18 @@
 import 'BaseLanguage.dart';
 
 class LanguageFr extends BaseLanguage {
+
+
+  @override
+  String get helpAndSupport=>"aide et soutien";
+
+
+  @override
+  String get verificationPending=>"vérification En attente";
+
+  @override
+  String get plateNumberCannotBechanged => "   Plate number cannot be changed";
+
   @override
   String get appName => 'Sanjeevani Plus Driver';
 

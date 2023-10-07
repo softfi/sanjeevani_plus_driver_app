@@ -1,6 +1,19 @@
 import 'BaseLanguage.dart';
 
 class LanguagePa extends BaseLanguage {
+
+
+  @override
+  String get helpAndSupport=>"hulp en ondersteuning";
+
+
+  @override
+  String get verificationPending=>"beripikasion Pending";
+
+
+  @override
+  String get plateNumberCannotBechanged => "   Plate number cannot be changed";
+
   @override
   String get appName => 'ਸ਼ਕਤੀਸ਼ਾਲੀ ਡਰਾਈਵਰ';
 

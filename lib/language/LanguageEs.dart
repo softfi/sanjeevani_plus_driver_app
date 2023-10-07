@@ -1,6 +1,16 @@
 import 'BaseLanguage.dart';
 
 class LanguageEs extends BaseLanguage {
+
+  @override
+  String get helpAndSupport=>"helpo kaj subteno";
+
+  @override
+  String get verificationPending=>"prikonfirmo Pending";
+
+  @override
+  String get plateNumberCannotBechanged => "   Plate number cannot be changed";
+
   @override
   String get appName => 'Conductor poderoso';
 

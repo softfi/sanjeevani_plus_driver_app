@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 abstract class BaseLanguage {
+  String get plateNumberCannotBechanged;
+
   static BaseLanguage? of(BuildContext context) => Localizations.of<BaseLanguage>(context, BaseLanguage);
+
+  String get verificationPending;
 
   String get appName;
 
@@ -588,4 +592,6 @@ abstract class BaseLanguage {
   String get pleaseContactSystemAdministrator;
 
   String get youCanNotThisActionsPerformBecauseYourCurrentRideIsNotCompleted;
+
+  String get helpAndSupport;
 }

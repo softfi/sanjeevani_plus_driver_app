@@ -1,6 +1,10 @@
 import 'BaseLanguage.dart';
 
 class LanguageEn extends BaseLanguage {
+
+  @override
+  String get helpAndSupport=>"Help and Support";
+
   @override
   String get appName => 'Sanjeevani Plus Driver';
 
@@ -158,7 +162,7 @@ class LanguageEn extends BaseLanguage {
   String get emergencyContact => 'Emergency Contact';
 
   @override
-  String get areYouSureYouWantDeleteThisNumber => 'Are you sure you want delete this number?';
+  String get areYouSureYouWantDeleteThisNumber => 'Are you sure that you want delete this number?';
 
   @override
   String get addContact => 'Add Contact';
@@ -332,7 +336,7 @@ class LanguageEn extends BaseLanguage {
   String get logOut => 'Logout';
 
   @override
-  String get areYouSureYouWantToLogoutThisApp => 'Are you sure you want to logout this app?';
+  String get areYouSureYouWantToLogoutThisApp => 'Are you sure that you want to logout this app?';
 
   @override
   String get whatWouldYouLikeToGo => 'What would you like to go?';
@@ -374,7 +378,7 @@ class LanguageEn extends BaseLanguage {
   String get weAreLookingForNearDriversAcceptsYourRide => 'We are looking for nearby drivers to\naccepts your ride';
 
   @override
-  String get areYouSureYouWantToCancelThisRide => 'Are you sure you want to cancel this ride?';
+  String get areYouSureYouWantToCancelThisRide => 'Are you sure that you want to cancel this ride?';
 
   @override
   String get serviceDetail => 'Service Detail';
@@ -536,7 +540,7 @@ class LanguageEn extends BaseLanguage {
   String get requests => 'Requests';
 
   @override
-  String get areYouSureYouWantToCancelThisRequest => 'Are you sure you want to cancel this request?';
+  String get areYouSureYouWantToCancelThisRequest => 'Are you sure that you want to cancel this request?';
 
   @override
   String get decline => 'Decline';
@@ -545,7 +549,7 @@ class LanguageEn extends BaseLanguage {
   String get accept => 'Accept';
 
   @override
-  String get areYouSureYouWantToAcceptThisRequest => 'Are you sure you want to accept this request?';
+  String get areYouSureYouWantToAcceptThisRequest => 'Are you sure that you want to accept this request?';
 
   @override
   String get call => 'Call';
@@ -557,10 +561,10 @@ class LanguageEn extends BaseLanguage {
   String get applyExtraFree => 'Apply extra free?';
 
   @override
-  String get areYouSureYouWantToArriving => 'Are you sure you want to arriving?';
+  String get areYouSureYouWantToArriving => 'Are you sure that you want to set status as arriving?';
 
   @override
-  String get areYouSureYouWantToArrived => 'Are you sure you want to arrived?';
+  String get areYouSureYouWantToArrived => 'Are you sure that you want to set status as arrived?';
 
   @override
   String get enterOtp => 'Enter OTP';
@@ -572,7 +576,7 @@ class LanguageEn extends BaseLanguage {
   String get pleaseEnterValidOtp => 'Please enter valid otp';
 
   @override
-  String get areYouSureYouWantToCompletedThisRide => 'Are you sure you want to completed this ride?';
+  String get areYouSureYouWantToCompletedThisRide => 'Are you sure you that want to completed this ride?';
 
   @override
   String get updateBankInfo => 'Update Bank Info';
@@ -620,7 +624,7 @@ class LanguageEn extends BaseLanguage {
   String get userNotApproveMsg => 'Your profile is under review. Wait some time or contact to your administrator.';
 
   @override
-  String get uploadFileConfirmationMsg => 'Are you sure you want to upload this file?';
+  String get uploadFileConfirmationMsg => 'Are you sure that you want to upload this file?';
 
   @override
   String get selectDocument => 'Select Document';
@@ -629,7 +633,7 @@ class LanguageEn extends BaseLanguage {
   String get addDocument => 'Add Document';
 
   @override
-  String get areYouSureYouWantToDeleteThisDocument => 'Are you sure you want to delete this document?';
+  String get areYouSureYouWantToDeleteThisDocument => 'Are you sure that you want to delete this document?';
 
   @override
   String get expireDate => 'Expire Date';
@@ -644,14 +648,14 @@ class LanguageEn extends BaseLanguage {
   String get account => 'Account ';
 
   @override
-  String get areYouSureYouWantPleaseReadAffect => 'Are you sure you want to delete your account? Please read how account deletion will affect.';
+  String get areYouSureYouWantPleaseReadAffect => 'Are you sure that you want to delete your account? Please read how account deletion will affect.';
 
   @override
   String get deletingAccountEmail =>
       'Deleting your account removes personal information from our database. Your email becomes permanently reserved and same email cannot be re-used to register a new account';
 
   @override
-  String get areYouSureYouWantDeleteAccount => 'Are you sure you want to delete Account?';
+  String get areYouSureYouWantDeleteAccount => 'Are you sure that you want to delete Account?';
 
   @override
   String get yourInternetIsNotWorking => 'Your Internet is not working';
@@ -669,7 +673,7 @@ class LanguageEn extends BaseLanguage {
   String get cashCollected => 'Cash Collected';
 
   @override
-  String get areYouSureCollectThisPayment => 'Are you sure collect this payment?';
+  String get areYouSureCollectThisPayment => 'Are you sure that you have collected this payment?';
 
   @override
   String get txtURLEmpty => "URL is empty";
@@ -757,6 +761,12 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get recharge => 'Recharge';
+
+  @override
+  String get verificationPending=>"Verification pending";
+
+  @override
+  String get plateNumberCannotBechanged => "   Plate number cannot be changed";
 
   @override
   String get isMandatoryDocument => '* is a mandatory document.';

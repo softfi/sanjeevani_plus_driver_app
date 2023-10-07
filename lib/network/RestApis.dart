@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'package:taxi_driver/model/DocumentListModel.dart';
@@ -112,6 +114,12 @@ Future<LoginResponse> logInApi(Map request, {bool isSocialLogin = false}) async 
     }
     return loginResponse;
   }).catchError((e) {
+     // navigatorKey.currentState?.pushAndRemoveUntil(, (route) => false);
+    // launchScreen(navigatorKey.currentContext!, LoginScreen(), pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);
+    // Navigator.pushAndRemoveUntil(navigatorKey.currentContext!, MaterialPageRoute(builder: (context) => LoginScreen(),), (route) => false);
+    // print("dkjbfsjbfjhs fsnfbjsdbf sjhfbsf sfsbfjbsdf   launchScreen(context, LoginScreen(), pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);");
+    logOutSuccess();
+    Fluttertoast.showToast(msg: "Session logout!, Please login again to continue");
     throw e.toString();
   });
 }
@@ -192,16 +200,17 @@ Future<ServiceModel> getServices() async {
 }
 
 Future<UserDetailModel> getUserDetail({int? userId}) async {
+  print("thids sddfdf fsfsdfsd fsdfsdfs dfsdfsdf ");
   return UserDetailModel.fromJson(await handleResponse(await buildHttpResponse('user-detail?id=$userId', method: HttpMethod.GET)));
 } 
 
-Future<LDBaseResponse> changeStatus(Map request) async {
-  return LDBaseResponse.fromJson(await handleResponse(await buildHttpResponse('update-user-status', method: HttpMethod.POST, request: request)));
-}
+// Future<LDBaseResponse> changeStatus(Map request) async {
+//   return LDBaseResponse.fromJson(await handleResponse(await buildHttpResponse('update-user-status', method: HttpMethod.POST, request: request)));
+// }
 
-Future<LDBaseResponse> saveBooking(Map request) async {
-  return LDBaseResponse.fromJson(await handleResponse(await buildHttpResponse('update-user-status', method: HttpMethod.POST, request: request)));
-}
+// Future<LDBaseResponse> saveBooking(Map request) async {
+//   return LDBaseResponse.fromJson(await handleResponse(await buildHttpResponse('update-user-status', method: HttpMethod.POST, request: request)));
+// }
 
 Future<WalletListModel> getWalletList({required int pageData}) async {
   return WalletListModel.fromJson(await handleResponse(await buildHttpResponse('wallet-list?page=$pageData', method: HttpMethod.GET)));
@@ -283,6 +292,7 @@ Future<LoginResponse> updateStatus(Map request) async {
 }
 
 Future<UserDetailModel> userDetail(int? userId) async {
+  print("fgdgd gdfgdfg dgrwer tg r234e fd g  g  t  f fsdfdffsd");
   return UserDetailModel.fromJson(await handleResponse(await buildHttpResponse('user-detail?id=$userId', method: HttpMethod.POST)));
 }
 
