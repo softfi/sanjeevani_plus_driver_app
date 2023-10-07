@@ -109,7 +109,6 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
     super.initState();
     init();
     locationPermission();
-
     log(servicesListData);
     if (sharedPref.getInt(IS_ONLINE) == 1) {
       isOffLine = true;
