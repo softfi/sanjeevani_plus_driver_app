@@ -40,6 +40,7 @@ import '../utils/Extensions/LiveStream.dart';
 import '../utils/Extensions/app_common.dart';
 import '../utils/Images.dart';
 import 'BankInfoScreen.dart';
+import 'DocVerificationPendingPage.dart';
 import 'EarningScreen.dart';
 import 'EmergencyContactScreen.dart';
 import 'HelpAndSupportScreen.dart';
@@ -1011,7 +1012,7 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
             ),
           ],
         ),
-        body: driverLocation != null
+        body:sharedPref.getInt(IS_Verified_Driver) == 0?DocVerificationPendingPage(): driverLocation != null
             ? Stack(
                 children: [
                   GoogleMap(

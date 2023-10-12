@@ -223,243 +223,249 @@ class VerifyDeliveryPersonScreenState
       body: Observer(builder: (context) {
         return Stack(
           children: [
-            SingleChildScrollView(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(defaultRadius),
-                              color: Colors.grey.withOpacity(0.15)),
-                          child: DropdownButtonFormField<DocumentModel>(
-                            hint: Text(language.selectDocument,
-                                style: boldTextStyle()),
-                            decoration:
-                                InputDecoration.collapsed(hintText: null),
-                            isExpanded: true,
-                            items: documentList.map((e) {
-                              return DropdownMenuItem(
-                                value: e,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(e.name.validate(),
-                                            style: primaryTextStyle()),
-                                        SizedBox(width: 4),
-                                        Text('${e.isRequired == 1 ? '*' : ''}',
-                                            style: boldTextStyle(
-                                                color: Colors.red))
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (DocumentModel? val) {
-                              docId = val!.id!;
-                              isExpire = val.hasExpiryDate!;
+            RefreshIndicator(
+              onRefresh: () async{
+                init();
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(defaultRadius),
+                                color: Colors.grey.withOpacity(0.15)),
+                            child: DropdownButtonFormField<DocumentModel>(
+                              hint: Text(language.selectDocument,
+                                  style: boldTextStyle()),
+                              decoration:
+                                  InputDecoration.collapsed(hintText: null),
+                              isExpanded: true,
+                              items: documentList.map((e) {
+                                return DropdownMenuItem(
+                                  value: e,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(e.name.validate(),
+                                              style: primaryTextStyle()),
+                                          SizedBox(width: 4),
+                                          Text('${e.isRequired == 1 ? '*' : ''}',
+                                              style: boldTextStyle(
+                                                  color: Colors.red))
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (DocumentModel? val) {
+                                docId = val!.id!;
+                                isExpire = val.hasExpiryDate!;
 
-                              setState(() {});
-                            },
+                                setState(() {});
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                      if (docId != 0)
-                        Visibility(
-                          visible: !uploadedDocList.contains(docId),
-                          child: inkWellWidget(
-                            onTap: () {
-                              if (isExpire == 1) {
-                                getMultipleFile(docId, isExpire == 0 ? null : 1,
-                                    dateTime: selectedDate);
-                              } else {
-                                getMultipleFile(
-                                    docId, isExpire == 0 ? null : 1);
-                              }
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(10),
-                              margin: EdgeInsets.only(left: 16),
+                        if (docId != 0)
+                          Visibility(
+                            visible: !uploadedDocList.contains(docId),
+                            child: inkWellWidget(
+                              onTap: () {
+                                if (isExpire == 1) {
+                                  getMultipleFile(docId, isExpire == 0 ? null : 1,
+                                      dateTime: selectedDate);
+                                } else {
+                                  getMultipleFile(
+                                      docId, isExpire == 0 ? null : 1);
+                                }
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                margin: EdgeInsets.only(left: 16),
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.circular(defaultRadius),
+                                    color: Colors.grey.withOpacity(0.15)),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.add,
+                                        color: primaryColor, size: 24),
+                                    SizedBox(width: 8),
+                                    Text(language.addDocument,
+                                        style: secondaryTextStyle()),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Text(language.isMandatoryDocument,
+                        style: primaryTextStyle(color: Colors.red)),
+                    SizedBox(height: 30),
+                    ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: driverDocumentList.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (_, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(driverDocumentList[index].documentName!,
+                                style: boldTextStyle()),
+                            SizedBox(height: 8),
+                            Container(
+                              padding: EdgeInsets.all(8),
                               decoration: BoxDecoration(
+                                  border: Border.all(color: borderColor),
                                   borderRadius:
-                                      BorderRadius.circular(defaultRadius),
-                                  color: Colors.grey.withOpacity(0.15)),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
+                                      BorderRadius.circular(defaultRadius)),
+                              child: Column(
                                 children: [
-                                  Icon(Icons.add,
-                                      color: primaryColor, size: 24),
-                                  SizedBox(width: 8),
-                                  Text(language.addDocument,
-                                      style: secondaryTextStyle()),
+                                  ClipRRect(
+                                    borderRadius:
+                                        BorderRadius.circular(defaultRadius),
+                                    child: commonCachedNetworkImage(
+                                         driverDocumentList[index].driverDocument!,
+                                        height: 200,
+                                        width: MediaQuery.of(context).size.width,
+                                        fit: BoxFit.cover),
+                                  ),
+                                  SizedBox(height: 16),
+                                  Row(
+                                    children: [
+                                      driverDocumentList[index].expireDate != null
+                                          ? Text(language.expireDate,
+                                              style: boldTextStyle())
+                                          : Text(''),
+                                      SizedBox(width: 8),
+                                      driverDocumentList[index].expireDate != null
+                                          ? Expanded(
+                                              child: Text(
+                                                  driverDocumentList[index]
+                                                      .expireDate
+                                                      .toString(),
+                                                  style: primaryTextStyle()))
+                                          : Expanded(
+                                              child: Text(''),
+                                            ),
+                                      Visibility(
+                                        visible: driverDocumentList[index]
+                                                .isVerified ==
+                                            0,
+                                        child: inkWellWidget(
+                                          onTap: () {
+                                            if (isExpire == 1) {
+                                              getMultipleFile(
+                                                  docId, isExpire == 0 ? null : 1,
+                                                  dateTime: selectedDate,
+                                                  updateId:
+                                                      driverDocumentList[index]
+                                                          .id);
+                                            } else {
+                                              getMultipleFile(
+                                                  docId, isExpire == 0 ? null : 1,
+                                                  updateId:
+                                                      driverDocumentList[index]
+                                                          .id);
+                                            }
+                                          },
+                                          child: Container(
+                                            height: 25,
+                                            width: 25,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  primaryColor.withOpacity(0.2),
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                              border:
+                                                  Border.all(color: primaryColor),
+                                            ),
+                                            child: Icon(Icons.edit,
+                                                color: primaryColor, size: 14),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 16),
+                                      Visibility(
+                                        visible: driverDocumentList[index]
+                                                .isVerified ==
+                                            0,
+                                        child: inkWellWidget(
+                                          onTap: () async {
+                                            showConfirmDialogCustom(
+                                              context,
+                                              title: language
+                                                  .areYouSureYouWantToDeleteThisDocument,
+                                              onAccept:
+                                                  (BuildContext context) async {
+                                                await deleteDoc(
+                                                    driverDocumentList[index].id);
+                                              },
+                                              positiveText: language.yes,
+                                              negativeText: language.no,
+                                              primaryColor: primaryColor,
+                                            );
+                                          },
+                                          child: Container(
+                                            height: 25,
+                                            width: 25,
+                                            decoration: BoxDecoration(
+                                              color: Colors.red.withOpacity(0.2),
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                              border:
+                                                  Border.all(color: Colors.red),
+                                            ),
+                                            child: Icon(Icons.delete,
+                                                color: Colors.red, size: 14),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 16),
+                                      Visibility(
+                                        visible: driverDocumentList[index]
+                                                .isVerified ==
+                                            1,
+                                        child: Icon(Icons.verified_user,
+                                            color: Colors.green),
+                                      ),
+                                      Visibility(
+                                        visible: driverDocumentList[index]
+                                            .isVerified ==
+                                            0,
+                                        child: Text(language.verificationPending,style: TextStyle(
+                                          color: primaryColor
+                                        ),),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 8),
                                 ],
                               ),
                             ),
-                          ),
-                        )
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Text(language.isMandatoryDocument,
-                      style: primaryTextStyle(color: Colors.red)),
-                  SizedBox(height: 30),
-                  ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: driverDocumentList.length,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (_, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(driverDocumentList[index].documentName!,
-                              style: boldTextStyle()),
-                          SizedBox(height: 8),
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: borderColor),
-                                borderRadius:
-                                    BorderRadius.circular(defaultRadius)),
-                            child: Column(
-                              children: [
-                                ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.circular(defaultRadius),
-                                  child: commonCachedNetworkImage(
-                                       driverDocumentList[index].driverDocument!,
-                                      height: 200,
-                                      width: MediaQuery.of(context).size.width,
-                                      fit: BoxFit.cover),
-                                ),
-                                SizedBox(height: 16),
-                                Row(
-                                  children: [
-                                    driverDocumentList[index].expireDate != null
-                                        ? Text(language.expireDate,
-                                            style: boldTextStyle())
-                                        : Text(''),
-                                    SizedBox(width: 8),
-                                    driverDocumentList[index].expireDate != null
-                                        ? Expanded(
-                                            child: Text(
-                                                driverDocumentList[index]
-                                                    .expireDate
-                                                    .toString(),
-                                                style: primaryTextStyle()))
-                                        : Expanded(
-                                            child: Text(''),
-                                          ),
-                                    Visibility(
-                                      visible: driverDocumentList[index]
-                                              .isVerified ==
-                                          0,
-                                      child: inkWellWidget(
-                                        onTap: () {
-                                          if (isExpire == 1) {
-                                            getMultipleFile(
-                                                docId, isExpire == 0 ? null : 1,
-                                                dateTime: selectedDate,
-                                                updateId:
-                                                    driverDocumentList[index]
-                                                        .id);
-                                          } else {
-                                            getMultipleFile(
-                                                docId, isExpire == 0 ? null : 1,
-                                                updateId:
-                                                    driverDocumentList[index]
-                                                        .id);
-                                          }
-                                        },
-                                        child: Container(
-                                          height: 25,
-                                          width: 25,
-                                          decoration: BoxDecoration(
-                                            color:
-                                                primaryColor.withOpacity(0.2),
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                            border:
-                                                Border.all(color: primaryColor),
-                                          ),
-                                          child: Icon(Icons.edit,
-                                              color: primaryColor, size: 14),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: 16),
-                                    Visibility(
-                                      visible: driverDocumentList[index]
-                                              .isVerified ==
-                                          0,
-                                      child: inkWellWidget(
-                                        onTap: () async {
-                                          showConfirmDialogCustom(
-                                            context,
-                                            title: language
-                                                .areYouSureYouWantToDeleteThisDocument,
-                                            onAccept:
-                                                (BuildContext context) async {
-                                              await deleteDoc(
-                                                  driverDocumentList[index].id);
-                                            },
-                                            positiveText: language.yes,
-                                            negativeText: language.no,
-                                            primaryColor: primaryColor,
-                                          );
-                                        },
-                                        child: Container(
-                                          height: 25,
-                                          width: 25,
-                                          decoration: BoxDecoration(
-                                            color: Colors.red.withOpacity(0.2),
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                            border:
-                                                Border.all(color: Colors.red),
-                                          ),
-                                          child: Icon(Icons.delete,
-                                              color: Colors.red, size: 14),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: 16),
-                                    Visibility(
-                                      visible: driverDocumentList[index]
-                                              .isVerified ==
-                                          1,
-                                      child: Icon(Icons.verified_user,
-                                          color: Colors.green),
-                                    ),
-                                    Visibility(
-                                      visible: driverDocumentList[index]
-                                          .isVerified ==
-                                          0,
-                                      child: Text(language.verificationPending,style: TextStyle(
-                                        color: primaryColor
-                                      ),),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 8),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                    separatorBuilder: (_, index) {
-                      return Divider();
-                    },
-                  )
-                ],
+                          ],
+                        );
+                      },
+                      separatorBuilder: (_, index) {
+                        return Divider();
+                      },
+                    )
+                  ],
+                ),
               ),
             ),
             Visibility(

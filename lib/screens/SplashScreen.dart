@@ -28,7 +28,10 @@ class SplashScreenState extends State<SplashScreen> {
       launchScreen(context, WalkThroughtScreen(), pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);
     } else {
       if (sharedPref.getInt(IS_Verified_Driver) == 0 && appStore.isLoggedIn) {
-        launchScreen(context, VerifyDeliveryPersonScreen(isShow: true), pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);
+
+        //doc verified or not he will redirected to the dashboard
+        launchScreen(context, DriverDashboardScreen(), pageRouteAnimation: PageRouteAnimation.SlideBottomTop, isNewTask: true);
+       // launchScreen(context, VerifyDeliveryPersonScreen(isShow: true), pageRouteAnimation: PageRouteAnimation.Slide, isNewTask: true);
       } else if (sharedPref.getInt(IS_Verified_Driver) == 1 && appStore.isLoggedIn) {
         launchScreen(context, DriverDashboardScreen(), pageRouteAnimation: PageRouteAnimation.SlideBottomTop, isNewTask: true);
       } else {

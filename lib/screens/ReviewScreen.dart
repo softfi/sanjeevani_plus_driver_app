@@ -45,8 +45,8 @@ class ReviewScreenState extends State<ReviewScreen> {
   }
 
   Future<void> userReviewData() async {
-    if (formKey.currentState!.validate()) {
-      if (rattingData == 0) return toast(language.pleaseSelectRating);
+    if (true/*formKey.currentState!.validate()*/) {
+      // if (rattingData == 0) return toast(language.pleaseSelectRating);
       formKey.currentState!.save();
       appStore.setLoading(true);
       Map req = {

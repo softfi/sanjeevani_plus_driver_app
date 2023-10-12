@@ -52,6 +52,7 @@ class DetailScreenState extends State<DetailScreen> {
     appStore.setLoading(true);
     await getCurrentRideRequest().then((value) async {
       appStore.setLoading(false);
+      print("this is the sdfsdfd fsdfsd  ${currentData?.id}");
       currentData = value;
       currentData!.payment=Payment(
         paymentType: CASH
@@ -123,9 +124,9 @@ class DetailScreenState extends State<DetailScreen> {
             "is_available": 1,
           };
           updateStatus(req).then((value) {
-            Future.delayed(Duration(seconds: 10), () {
-              getCurrentRequest();
-            });
+            // Future.delayed(Duration(seconds: 10), () {
+            //   getCurrentRequest();
+            // });
             //getCurrentRequest();
             //
           });
@@ -246,6 +247,8 @@ print("fsfdfsd fsdfsdf sfsdfsdfsd fsfd $value");
   OnRideRequest? servicesListData;
   @override
   Widget build(BuildContext context) {
+   if(currentData==null) currentRideRequest();
+   if(riderModel==null)orderDetailApi();
     return Scaffold(
       appBar: AppBar(
         title: Text(language.detailScreen,
@@ -716,9 +719,9 @@ print("fsfdfsd fsdfsdf sfsdfsdfsd fsfd $value");
           "is_available": 1,
         };
         updateStatus(req).then((value) {
-          Future.delayed(Duration(seconds: 5), () {
-            getCurrentRequest();
-          });
+          // Future.delayed(Duration(seconds: 5), () {
+          //   getCurrentRequest();
+          // });
           //getCurrentRequest();
           //
         });

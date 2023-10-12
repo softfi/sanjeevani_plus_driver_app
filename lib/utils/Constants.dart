@@ -210,8 +210,11 @@ String printAmount(String amount) {
 }
 
 
-const PDF_NAME = 'Pinch Taxi  Private Limited';
-const PDF_ADDRESS = 'Sarah Street 9, Beijing, Ahmedabad';
-const PDF_CONTACT_NUMBER = '+91 7600712311';
+// const PDF_NAME = 'Pinch Taxi  Private Limited';
+// const PDF_ADDRESS = 'Sarah Street 9, Beijing, Ahmedabad';
+// const PDF_CONTACT_NUMBER = '+91 7600712311';
+const PDF_NAME = ' Tlam consultants private limited';
+const PDF_ADDRESS = 'A-10 C. R. Park, Savitri Flyover, near Savitri Cinema Complex, Block A, Chittaranjan Park, Delhi 110019';
+const PDF_CONTACT_NUMBER = '+91 7991521212';
 
 var errorSomethingWentWrong = 'Something Went Wrong';
