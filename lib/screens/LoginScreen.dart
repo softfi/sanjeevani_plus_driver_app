@@ -142,7 +142,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   Future<void> appSetting() async {
     await getAppSettingApi().then((value) {
-      if (value.privacyPolicyModel!.value != null) privacyPolicy = value.privacyPolicyModel!.value;
+      if (value.privacyPolicy!= null) privacyPolicy = value.privacyPolicy!.value;
       if (value.termsCondition!.value != null) termsCondition = value.termsCondition!.value;
     }).catchError((error) {
       log(error.toString());

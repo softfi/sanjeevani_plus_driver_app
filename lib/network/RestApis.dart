@@ -72,6 +72,7 @@ Future<LoginResponse> signUpApi(Map request) async {
     }
     return loginResponse;
   }).catchError((e) {
+    toast(e.toString());
     log(e.toString());
   });
 }
@@ -288,6 +289,7 @@ Future<LDBaseResponse> deleteDeliveryDoc(int id) async {
 }
 
 Future<LoginResponse> updateStatus(Map request) async {
+  print("234235234 523523525   25 2   $request");
   return LoginResponse.fromJson(await handleResponse(await buildHttpResponse('update-user-status', method: HttpMethod.POST, request: request)));
 }
 
@@ -374,6 +376,7 @@ Future<LDBaseResponse> savePayment(Map request) async {
 }
 
 Future<LDBaseResponse> rideRequestResPond({required Map request}) async {
+  print("sdfsdfs fsdfsfsfsfsf sdfsfsf s fsdf  $request      riderequest-respond");
   return LDBaseResponse.fromJson(await handleResponse(await buildHttpResponse('riderequest-respond', method: HttpMethod.POST, request: request)));
 }
 

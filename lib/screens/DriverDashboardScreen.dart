@@ -118,6 +118,62 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
 
   Timer? newTimer;
 
+
+
+  newTestFunctionForAppSetting()async{
+    await getAppSetting().then((value) {
+      if (value.walletSetting!.isNotEmpty) {
+        appStore.setWalletPresetTopUpAmount(value.walletSetting!
+            .firstWhere((element) => element.key == PRESENT_TOPUP_AMOUNT)
+            .value ??
+            '10|20|30');
+      }
+      if (value.rideSetting!.isNotEmpty) {
+        appStore.setWalletTipAmount(value.rideSetting!
+            .firstWhere((element) => element.key == PRESENT_TIP_AMOUNT)
+            .value ??
+            '10|20|30');
+      }
+
+      setState(() {
+        startTime = int.parse(value.rideSetting!
+            .firstWhere(
+                (element) => element.key == MAX_TIME_FOR_DRIVER_SECOND)
+            .value ??
+            '60');
+      });
+      startTimer();
+      print("thi dssfsfmsdnfsd ngb ndsg sgn gng bn  $startTime");
+      print("SymbolSymbol" + value.currencySetting!.symbol.toString());
+      if (value.currencySetting != null) {
+        appStore
+            .setCurrencyCode(value.currencySetting!.symbol ?? currencySymbol);
+        appStore
+            .setCurrencyName(value.currencySetting!.code ?? currencyNameConst);
+        appStore.setCurrencyPosition(value.currencySetting!.position ?? LEFT);
+      }
+
+      if (value.walletSetting!
+          .firstWhere((element) => element.key == MIN_AMOUNT_TO_ADD)
+          .value !=
+          null)
+        appStore.setMinAmountToAdd(int.parse(value.walletSetting!
+            .firstWhere((element) => element.key == MIN_AMOUNT_TO_ADD)
+            .value!));
+      if (value.walletSetting!
+          .firstWhere((element) => element.key == MAX_AMOUNT_TO_ADD)
+          .value !=
+          null)
+        appStore.setMaxAmountToAdd(int.parse(value.walletSetting!
+            .firstWhere((element) => element.key == MAX_AMOUNT_TO_ADD)
+            .value!));
+    }).catchError((error) {
+      log('${error.toString()}');
+    });
+  }
+
+
+
   void init() async {
     newTimer = Timer.periodic(Duration(seconds: 3), (timer) {
       print("==================> continuously called");
@@ -255,14 +311,18 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
     }
   }
 
+  Timer? demoTimer;
   Future<void> startTimer() async {
     const oneSec = const Duration(seconds: 1);
-    timerData = new Timer.periodic(
+    print("34144242,4 1m41 m43 m14mbn12 411 4   $demoTimer");
+   if(demoTimer ==null || !(demoTimer?.isActive??false))
+     // if(!demoTimer!.isActive)
+     demoTimer =  Timer.periodic(
       oneSec,
       (Timer timer) {
         if (ModalRoute.of(context)!.isCurrent) {
         } else {
-          timerData?.cancel();
+          demoTimer?.cancel();
         }
         print("90999090909090909090099090900");
         if (duration == 0) {
@@ -274,15 +334,16 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
           _polyLines.clear();
           setMapPins();
           setState(() {});
-          Future.delayed(Duration(seconds: 4)).then((value) {
-            Map req = {
-              "id": riderId,
-            };
-            rideRequestResPond(request: req)
-                .then((value) {})
-                .catchError((error) {
-              log(error.toString());
-            });
+          Future.delayed(Duration.zero).then((value) {
+            print("timer one called timer one called");
+            rideRequestAccept(deCline: true);
+            // rideRequestResPond(request: req)
+            //     .then((value) {
+            //       print('5235325234 235425 34g fdg fggdf ggg     $value');
+            // })
+            //     .catchError((error) {
+            //   log(error.toString());
+            // });
           });
         } else {
           setState(() {
@@ -351,19 +412,19 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
     appStore.setLoading(true);
     await getCurrentRideRequest().then((value) async {
       appStore.setLoading(false);
-      print(
-          "onRideRequest 244234erwerwer42343erwerwer4234rewr  ${value.onRideRequest}");
       if (value.onRideRequest != null) {
+
         appStore.currentRiderRequest = value.onRideRequest;
         servicesListData = value.onRideRequest;
-
         userDetail(driverId: value.onRideRequest!.riderId);
-
         setState(() {});
 
         if (servicesListData != null) {
+          print("onRideRequest 244234erwerwer42343erwerwer4234rewr  ${value.onRideRequest}");
+          startTimer();
           if (servicesListData!.status == COMPLETED &&
               servicesListData!.isDriverRated == 0) {
+
             //change here also
             RIDE_REQUEST_ID_BY_ALOK = servicesListData!.id!;
             launchScreen(context, DetailScreen(),
@@ -447,6 +508,7 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
   }
 
   Future<void> rideRequestAccept({bool deCline = false}) async {
+    if(!deCline)demoTimer!.cancel();
     appStore.setLoading(true);
     Map req = {
       "id": servicesListData!.id,
@@ -457,7 +519,7 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
     debugPrint("================34iou654io ${req}");
     await rideRequestResPond(request: req).then((value) async {
       appStore.setLoading(false);
-      print("CANCELED ===============================> ${value}" );
+      print("CANCELED ===============================>dfsfwerwersdfsfwer4rdfsdfsfdsf ${value}" );
       //print("RIDE CANCEL VALUE ===============================> ${value.orderId}" );
       //print("RIDE CANCEL VALUE ===============================> ${value.status}" );
       getCurrentRequest();

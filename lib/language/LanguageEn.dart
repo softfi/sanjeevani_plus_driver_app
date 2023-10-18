@@ -639,7 +639,7 @@ class LanguageEn extends BaseLanguage {
   String get expireDate => 'Expire Date';
 
   @override
-  String get goDashBoard => 'Go DashBoard';
+  String get goDashBoard => 'Go To DashBoard';
 
   @override
   String get deleteAccount => 'Delete Account';

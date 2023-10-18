@@ -7,11 +7,12 @@ import '../../utils/Colors.dart';
 import '../../utils/Constants.dart';
 import '../../utils/Extensions/app_common.dart';
 import '../main.dart';
+import '../model/AppSettingModel.dart';
 import '../model/SettingModel.dart';
 import '../utils/Common.dart';
 
 class AboutScreen extends StatefulWidget {
-  final SettingModel settingModel;
+  final AppSeeting settingModel;
 
   AboutScreen({required this.settingModel});
 

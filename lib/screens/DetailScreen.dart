@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:dotted_line/dotted_line.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -37,16 +39,48 @@ class DetailScreenState extends State<DetailScreen> {
   List<RideHistory> rideHistory = [];
   bool isPaymentDone = false;
 
+
+   late final Stream<Payment>  counterStream;
   @override
   void initState() {
+    startStream();
     super.initState();
     init();
+  }
+
+  startStream()async{
+    counterStream= ((){
+      late final StreamController<Payment> controller;
+      controller=StreamController<Payment>(
+        onListen: ()async {
+            orderDetailApi(shouldLoad: false);
+        },
+      );
+      return controller.stream;
+    })();
+  }
+
+  Stream<Payment?> getDataAsStream()async*{
+    while(true){
+      await Future.delayed(Duration(seconds: 2));
+      yield await orderDetailApi(shouldLoad: false);
+
+    }
+  }
+
+
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void init() async {
     currentRideRequest();
     mqttForUser();
   }
+
+
 
   Future<void> currentRideRequest() async {
     appStore.setLoading(true);
@@ -57,7 +91,7 @@ class DetailScreenState extends State<DetailScreen> {
       currentData!.payment=Payment(
         paymentType: CASH
       );
-      await orderDetailApi();
+      await orderDetailApi(shouldLoad: true);
       print("hri sdi kjfds fbf ${value.id}");
       setState(() {});
     })/*.catchError((error) {
@@ -156,21 +190,23 @@ class DetailScreenState extends State<DetailScreen> {
     });
   }
 
-  Future<void> orderDetailApi() async {
-    appStore.setLoading(true);
+  Future<Payment?> orderDetailApi({required bool shouldLoad}) async {
+    if(shouldLoad) appStore.setLoading(true);
     await rideDetail(orderId: currentData?.payment?.rideRequestId??RIDE_REQUEST_ID_BY_ALOK)
         .then((value) {
-      appStore.setLoading(false);
+      if(shouldLoad)appStore.setLoading(false);
 print("fsfdfsd fsdfsdf sfsdfsdfsd fsfd $value");
       riderModel = value.data;
       payment = value.payment!;
       rideHistory = value.rideHistory!;
+      print("gd ndmng d g df gdg  ${payment!.driverTips}");
       setState(() {});
     }).catchError((error) {
-      appStore.setLoading(false);
-
+      if(shouldLoad)appStore.setLoading(false);
       log('${error.toString()}');
     });
+    return payment;
+    // if(payment!.driverTips==null) Future.delayed(Duration(seconds: 2)).then((value) => orderDetailApi(shouldLoad: false));
   }
 
   mqttForUser() async {
@@ -248,7 +284,7 @@ print("fsfdfsd fsdfsdf sfsdfsdfsd fsfd $value");
   @override
   Widget build(BuildContext context) {
    if(currentData==null) currentRideRequest();
-   if(riderModel==null)orderDetailApi();
+   if(riderModel==null)orderDetailApi(shouldLoad: false);
     return Scaffold(
       appBar: AppBar(
         title: Text(language.detailScreen,
@@ -482,7 +518,13 @@ print("fsfdfsd fsdfsdf sfsdfsdfsd fsfd $value");
                           ],
                         ),
                       SizedBox(height: 16),
-                      Container(
+
+                      StreamBuilder(stream:getDataAsStream() , builder: (context, AsyncSnapshot<Payment?> snapshot) {
+                        return Text(snapshot.data?.driverTips.toString()??"");
+
+                      },),
+
+                      payment!.driverTips!=null?Container(
                         decoration: BoxDecoration(
                             color: appStore.isDarkMode
                                 ? scaffoldSecondaryDark
@@ -593,6 +635,12 @@ print("fsfdfsd fsdfsdf sfsdfsdfsd fsfd $value");
                                 isTotal: true),
                           ],
                         ),
+                      ):Column(
+                        children: [
+                          loaderWidget(),
+                          const SizedBox(height: 10,),
+                          Text("Waiting for the user to confirm",style: TextStyle(color: primaryColor,fontSize: 18),)
+                        ],
                       ),
                     ],
                   ),
@@ -614,7 +662,7 @@ print("fsfdfsd fsdfsdf sfsdfsdfsd fsfd $value");
           ? Padding(
               padding: EdgeInsets.all(16),
               child: currentData!.payment!.paymentType == CASH
-                  ? AppButtonWidget(
+                  ? payment?.driverTips!=null? AppButtonWidget(
                       text: language.cashCollected,
                       textStyle: boldTextStyle(color: Colors.white),
                       color: primaryColor,
@@ -639,7 +687,7 @@ print("fsfdfsd fsdfsdf sfsdfsdfsd fsfd $value");
                           ///////
                         });
                       },
-                    )
+                    ):const SizedBox()
                   : AppButtonWidget(
                       text: language.waitingForDriverConformation,
                       textStyle: boldTextStyle(color: Colors.white, size: 12),

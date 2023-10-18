@@ -4,6 +4,7 @@ import 'package:taxi_driver/utils/Common.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
+import '../model/AppSettingModel.dart';
 import '../model/SettingModel.dart';
 import '../network/RestApis.dart';
 import '../utils/Colors.dart';
@@ -23,7 +24,7 @@ class SettingScreen extends StatefulWidget {
 }
 
 class SettingScreenState extends State<SettingScreen> {
-  SettingModel settingModel = SettingModel();
+  AppSeeting settingModel = AppSeeting();
   String? privacyPolicy;
   String? termsCondition;
   String? mHelpAndSupport;
@@ -39,9 +40,10 @@ class SettingScreenState extends State<SettingScreen> {
   void init() async {
     await driverDetail();
     await getAppSetting().then((value) {
-      if (value.settingModel!.helpSupportUrl != null) mHelpAndSupport = value.settingModel!.helpSupportUrl!;
-      settingModel = value.settingModel!;
-      if (value.privacyPolicyModel!.value != null) privacyPolicy = value.privacyPolicyModel!.value!;
+      print("sfdkhs kjfsdhfuish fiusd iufsd iug sim sgj       $value");
+      // if (value.settingModel!.helpSupportUrl != null) mHelpAndSupport = value.settingModel!.helpSupportUrl!;
+      settingModel =value.appSeeting! ;
+      if (value.privacyPolicy != null) privacyPolicy = value.privacyPolicy!.value;
       if (value.termsCondition!.value != null) termsCondition = value.termsCondition!.value!;
       setState(() {});
     }).catchError((error) {

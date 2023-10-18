@@ -55,7 +55,7 @@ Future<Response> buildHttpResponse(String endPoint,
       } else {
         response = await get(url, headers: headers).timeout(Duration(seconds: 20), onTimeout: () => throw 'Timeout');
       }
-      log('ResponseData ($method): ${url.toString()} ${response.statusCode} ${response.body}');
+      log('$endPoint  ResponseData ($method): ${url.toString()} ${response.statusCode} ${response.body}');
       return response;
     } catch (e) {
       throw 'Something Went Wrong';

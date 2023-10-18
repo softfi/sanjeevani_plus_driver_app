@@ -102,6 +102,7 @@ class AuthServices {
           }
         } else {
           await signUpApi(req).then((value) {
+            print(("njkfn sdkjfnsjkd fjisnfksnjf sfs f j    $value"));
             if (sharedPref.getInt(IS_Verified_Driver) == 1) {
               Fluttertoast.showToast(msg: "LoggedIn Success");
               launchScreen(context, DriverDashboardScreen());
@@ -110,17 +111,14 @@ class AuthServices {
                   pageRouteAnimation: PageRouteAnimation.Slide,
                   isNewTask: true);
             }
-          }).catchError((error) {
-            toast(error.toString());
-            log('asdasdsd${error.toString()}');
           });
         }
 
         appStore.setLoading(false);
       }).catchError((e) {
         appStore.setLoading(false);
-        toast('${e.toString()}');
-        log('asdasdsd${e.toString()}');
+       // toast('${e.toString()}');
+        log('asdasdsd ``11111111 ${e.toString()}');
       });
     } else {
       throw "errorSomethingWentWrong";

@@ -192,7 +192,9 @@ class VerifyDeliveryPersonScreenState
 
       sharedPref.setInt(IS_Verified_Driver, value.data!.isVerifiedDriver!);
       if (value.data!.isDocumentRequired != 0) {
-        toast(language.someRequiredDocumentAreNotUploaded);
+        // toast(language.someRequiredDocumentAreNotUploaded);
+        launchScreen(context, DriverDashboardScreen(),
+            isNewTask: true, pageRouteAnimation: PageRouteAnimation.Slide);
       } else {
         if (sharedPref.getInt(IS_Verified_Driver) == 1) {
           launchScreen(context, DriverDashboardScreen(),
@@ -443,17 +445,20 @@ class VerifyDeliveryPersonScreenState
                                         child: Icon(Icons.verified_user,
                                             color: Colors.green),
                                       ),
-                                      Visibility(
-                                        visible: driverDocumentList[index]
-                                            .isVerified ==
-                                            0,
-                                        child: Text(language.verificationPending,style: TextStyle(
-                                          color: primaryColor
-                                        ),),
-                                      ),
+
                                     ],
                                   ),
                                   SizedBox(height: 8),
+                                  Visibility(
+                                    visible: driverDocumentList[index]
+                                        .isVerified ==
+                                        0,
+                                    child: SizedBox(
+                                      child: Text(language.verificationPending,style: TextStyle(
+                                          color: primaryColor
+                                      ),),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),

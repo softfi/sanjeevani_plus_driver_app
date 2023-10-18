@@ -223,6 +223,7 @@ Widget emptyWidget() {
 Future<void> saveOneSignalPlayerId() async {
   await OneSignal.shared.getDeviceState().then((value) async {
     if (value!.userId.validate().isNotEmpty)
+      print("lksfj kjsdfnfd fnd fnfdnf d fdf d fdjfd dbf  fs df     ${value.userId.validate()}");
       await sharedPref.setString(PLAYER_ID, value.userId.validate());
   });
 }

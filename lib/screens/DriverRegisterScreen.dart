@@ -146,8 +146,8 @@ class DriverRegisterScreenState extends State<DriverRegisterScreen> {
 
         }).catchError((e) {
           appStore.setLoading(false);
-          toast(e.toString());
-          log("asdasdsd   " + e.toString());
+          toast(e.toString().replaceFirst('[firebase_auth/email-already-in-use]', ''));
+          log("asdasdsd   3333333" + e.toString());
         });
       } else {
         toast(language.pleaseAcceptTermsOfServicePrivacyPolicy);
