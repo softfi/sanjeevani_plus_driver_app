@@ -10,7 +10,7 @@ const mAppName = 'Sanjeevani Plus Driver';
 var errorThisFieldRequired = 'This field is required';
 
 // const googleMapAPIKey = 'AIzaSyB51KhXY-UTRgW7lfV0oh0DXA8FYPkwEbo';
-const googleMapAPIKey = 'AIzaSyCJBGAgBHOCkFIpPtcLHgXWgowMF1iCQ7E';
+const googleMapAPIKey = 'AIzaSyDjJkTFyFeKOeY7qGCWTrUgSXE4uLW7duQ';
 
 // const DOMAIN_URL = 'https://softfix.in/demo/ambvan'; // Don't add slash at the end of the url
 const DOMAIN_URL = 'https://app.sanjeevaniplus.com'; // Don't add slash at the end of the url

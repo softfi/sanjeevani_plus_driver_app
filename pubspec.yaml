@@ -19,7 +19,7 @@ dependencies:
   fluttertoast: 8.1.2
 
   # IMAGE
-  cached_network_image: ^3.2.3
+  cached_network_image: ^3.3.0
 
   # BASE
   intl: ^0.18.0
@@ -115,6 +115,7 @@ dependencies:
     sdk: flutter
 #  background_locator: ^1.6.6
   location_permissions: ^4.0.1
+  fwfh_text_style: ^2.23.8
 
 dev_dependencies:
   flutter_test:

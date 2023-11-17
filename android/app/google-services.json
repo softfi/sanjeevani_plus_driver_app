@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "63826262653-dvmdb7pa9lje6t3g7fi0e359rp036u3p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ambulance.driver",
+            "certificate_hash": "73686ca1fc0fb26adc6ecfcadfbb2138f3013d49"
+          }
+        },
+        {
           "client_id": "63826262653-r2h24tvej0a0b3ic2f5dankgl1ood2kf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
