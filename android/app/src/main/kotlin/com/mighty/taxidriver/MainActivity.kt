@@ -1,4 +1,4 @@
-package com.ambulance.taxidriver
+package com.ambulance.driver
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity

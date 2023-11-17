@@ -1,41 +1,49 @@
 {
   "project_info": {
-    "project_number": "981980918402",
-    "project_id": "ambulancep-1e9ba",
-    "storage_bucket": "ambulancep-1e9ba.appspot.com"
+    "project_number": "63826262653",
+    "project_id": "ambulance-new-2706f",
+    "storage_bucket": "ambulance-new-2706f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:981980918402:android:939bede7e14bea7425fa9b",
+        "mobilesdk_app_id": "1:63826262653:android:bc68d012d28c21f1b0cf14",
         "android_client_info": {
-          "package_name": "com.ambulance.taxidriver"
+          "package_name": "com.ambulance.driver"
         }
       },
       "oauth_client": [
         {
-          "client_id": "981980918402-p3mshl6q46i0jski5ht1m78ijj2kb1bc.apps.googleusercontent.com",
+          "client_id": "63826262653-0gd40fjklhhoceaka0ahkmnl0gjgv9et.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.ambulance.taxidriver",
-            "certificate_hash": "f5e847bbb1e17b19d1b3c876a57930a0190e831d"
+            "package_name": "com.ambulance.driver",
+            "certificate_hash": "239660101fec5be2c7e953cde8c8178d11f7087a"
           }
         },
         {
-          "client_id": "981980918402-9ak99kd5349uopi2qkabj9bjkuqunk2b.apps.googleusercontent.com",
+          "client_id": "63826262653-r2h24tvej0a0b3ic2f5dankgl1ood2kf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ambulance.driver",
+            "certificate_hash": "fec3619ae2f9312161c82f8056edde02afc69e0b"
+          }
+        },
+        {
+          "client_id": "63826262653-1emmb1vl2se2d2j5mfllcev7dn2j6jtv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCulscnRp74N9yEl-gT-UEK6fGuHwyUJ1o"
+          "current_key": "AIzaSyDVVMbK7OeH3e4b1Whsw2KPliP1qy7rDuU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "981980918402-9ak99kd5349uopi2qkabj9bjkuqunk2b.apps.googleusercontent.com",
+              "client_id": "63826262653-1emmb1vl2se2d2j5mfllcev7dn2j6jtv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -44,35 +52,35 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:981980918402:android:f0a9cfe2ed829a4025fa9b",
+        "mobilesdk_app_id": "1:63826262653:android:9b2ba7dd0989e73ab0cf14",
         "android_client_info": {
-          "package_name": "com.ambulance.taxirider"
+          "package_name": "com.ambulance.rider"
         }
       },
       "oauth_client": [
         {
-          "client_id": "981980918402-3sc9lchb24v51hpd14na5h4j1gg8i4nt.apps.googleusercontent.com",
+          "client_id": "63826262653-gmdrhtnm39f8pnsboemu3v3t5eonm7js.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.ambulance.taxirider",
-            "certificate_hash": "f5e847bbb1e17b19d1b3c876a57930a0190e831d"
+            "package_name": "com.ambulance.rider",
+            "certificate_hash": "73686ca1fc0fb26adc6ecfcadfbb2138f3013d49"
           }
         },
         {
-          "client_id": "981980918402-9ak99kd5349uopi2qkabj9bjkuqunk2b.apps.googleusercontent.com",
+          "client_id": "63826262653-1emmb1vl2se2d2j5mfllcev7dn2j6jtv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCulscnRp74N9yEl-gT-UEK6fGuHwyUJ1o"
+          "current_key": "AIzaSyDVVMbK7OeH3e4b1Whsw2KPliP1qy7rDuU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "981980918402-9ak99kd5349uopi2qkabj9bjkuqunk2b.apps.googleusercontent.com",
+              "client_id": "63826262653-1emmb1vl2se2d2j5mfllcev7dn2j6jtv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
