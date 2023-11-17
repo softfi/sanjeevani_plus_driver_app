@@ -109,10 +109,11 @@ dependencies:
   open_file: ^3.3.2
   permission_handler: ^10.2.0
   downloads_path_provider_28: ^0.1.2
+  background_locator: ^1.6.12
 
   flutter_localizations:
     sdk: flutter
-  background_locator: ^1.6.6
+#  background_locator: ^1.6.6
   location_permissions: ^4.0.1
 
 dev_dependencies:
