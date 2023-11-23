@@ -118,28 +118,26 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
 
   Timer? newTimer;
 
-
-
-  newTestFunctionForAppSetting()async{
+  newTestFunctionForAppSetting() async {
     await getAppSetting().then((value) {
       if (value.walletSetting!.isNotEmpty) {
         appStore.setWalletPresetTopUpAmount(value.walletSetting!
-            .firstWhere((element) => element.key == PRESENT_TOPUP_AMOUNT)
-            .value ??
+                .firstWhere((element) => element.key == PRESENT_TOPUP_AMOUNT)
+                .value ??
             '10|20|30');
       }
       if (value.rideSetting!.isNotEmpty) {
         appStore.setWalletTipAmount(value.rideSetting!
-            .firstWhere((element) => element.key == PRESENT_TIP_AMOUNT)
-            .value ??
+                .firstWhere((element) => element.key == PRESENT_TIP_AMOUNT)
+                .value ??
             '10|20|30');
       }
 
       setState(() {
         startTime = int.parse(value.rideSetting!
-            .firstWhere(
-                (element) => element.key == MAX_TIME_FOR_DRIVER_SECOND)
-            .value ??
+                .firstWhere(
+                    (element) => element.key == MAX_TIME_FOR_DRIVER_SECOND)
+                .value ??
             '60');
       });
       startTimer();
@@ -154,15 +152,15 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
       }
 
       if (value.walletSetting!
-          .firstWhere((element) => element.key == MIN_AMOUNT_TO_ADD)
-          .value !=
+              .firstWhere((element) => element.key == MIN_AMOUNT_TO_ADD)
+              .value !=
           null)
         appStore.setMinAmountToAdd(int.parse(value.walletSetting!
             .firstWhere((element) => element.key == MIN_AMOUNT_TO_ADD)
             .value!));
       if (value.walletSetting!
-          .firstWhere((element) => element.key == MAX_AMOUNT_TO_ADD)
-          .value !=
+              .firstWhere((element) => element.key == MAX_AMOUNT_TO_ADD)
+              .value !=
           null)
         appStore.setMaxAmountToAdd(int.parse(value.walletSetting!
             .firstWhere((element) => element.key == MAX_AMOUNT_TO_ADD)
@@ -171,8 +169,6 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
       log('${error.toString()}');
     });
   }
-
-
 
   void init() async {
     newTimer = Timer.periodic(Duration(seconds: 3), (timer) {
@@ -312,46 +308,47 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
   }
 
   Timer? demoTimer;
+
   Future<void> startTimer() async {
     const oneSec = const Duration(seconds: 1);
     print("34144242,4 1m41 m43 m14mbn12 411 4   $demoTimer");
-   if(demoTimer ==null || !(demoTimer?.isActive??false))
-     // if(!demoTimer!.isActive)
-     demoTimer =  Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (ModalRoute.of(context)!.isCurrent) {
-        } else {
-          demoTimer?.cancel();
-        }
-        print("90999090909090909090099090900");
-        if (duration == 0) {
-          duration = startTime;
-          timer.cancel();
-          sharedPref.remove(ON_RIDE_MODEL);
-          sharedPref.remove(IS_TIME2);
-          servicesListData = null;
-          _polyLines.clear();
-          setMapPins();
-          setState(() {});
-          Future.delayed(Duration.zero).then((value) {
-            print("timer one called timer one called");
-            rideRequestAccept(deCline: true);
-            // rideRequestResPond(request: req)
-            //     .then((value) {
-            //       print('5235325234 235425 34g fdg fggdf ggg     $value');
-            // })
-            //     .catchError((error) {
-            //   log(error.toString());
-            // });
-          });
-        } else {
-          setState(() {
-            duration--;
-          });
-        }
-      },
-    );
+    if (demoTimer == null || !(demoTimer?.isActive ?? false))
+      // if(!demoTimer!.isActive)
+      demoTimer = Timer.periodic(
+        oneSec,
+        (Timer timer) {
+          if (ModalRoute.of(context)!.isCurrent) {
+          } else {
+            demoTimer?.cancel();
+          }
+          print("90999090909090909090099090900");
+          if (duration == 0) {
+            duration = startTime;
+            timer.cancel();
+            sharedPref.remove(ON_RIDE_MODEL);
+            sharedPref.remove(IS_TIME2);
+            servicesListData = null;
+            _polyLines.clear();
+            setMapPins();
+            setState(() {});
+            Future.delayed(Duration.zero).then((value) {
+              print("timer one called timer one called");
+              rideRequestAccept(deCline: true);
+              // rideRequestResPond(request: req)
+              //     .then((value) {
+              //       print('5235325234 235425 34g fdg fggdf ggg     $value');
+              // })
+              //     .catchError((error) {
+              //   log(error.toString());
+              // });
+            });
+          } else {
+            setState(() {
+              duration--;
+            });
+          }
+        },
+      );
   }
 
   Future<void> startNewTimer() async {
@@ -385,7 +382,6 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
   }
 
   Future<void> driverStatus({int? status}) async {
-
     appStore.setLoading(true);
     Map req = {
       "status": "active",
@@ -413,18 +409,17 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
     await getCurrentRideRequest().then((value) async {
       appStore.setLoading(false);
       if (value.onRideRequest != null) {
-
         appStore.currentRiderRequest = value.onRideRequest;
         servicesListData = value.onRideRequest;
         userDetail(driverId: value.onRideRequest!.riderId);
         setState(() {});
 
         if (servicesListData != null) {
-          print("onRideRequest 244234erwerwer42343erwerwer4234rewr  ${value.onRideRequest}");
+          print(
+              "onRideRequest 244234erwerwer42343erwerwer4234rewr  ${value.onRideRequest}");
           startTimer();
           if (servicesListData!.status == COMPLETED &&
               servicesListData!.isDriverRated == 0) {
-
             //change here also
             RIDE_REQUEST_ID_BY_ALOK = servicesListData!.id!;
             launchScreen(context, DetailScreen(),
@@ -508,18 +503,20 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
   }
 
   Future<void> rideRequestAccept({bool deCline = false}) async {
-    if(!deCline)demoTimer!.cancel();
+    if (!deCline) demoTimer!.cancel();
     appStore.setLoading(true);
     Map req = {
       "id": servicesListData!.id,
+
       ///comment by dharmendra at 7 oct  2023 12:29
-      /*if (!deCline) */"driver_id": sharedPref.getInt(USER_ID),
+      /*if (!deCline) */ "driver_id": sharedPref.getInt(USER_ID),
       "is_accept": deCline ? "0" : "1",
     };
     debugPrint("================34iou654io ${req}");
     await rideRequestResPond(request: req).then((value) async {
       appStore.setLoading(false);
-      print("CANCELED ===============================>dfsfwerwersdfsfwer4rdfsdfsfdsf ${value}" );
+      print(
+          "CANCELED ===============================>dfsfwerwersdfsfwer4rdfsdfsfdsf ${value}");
       //print("RIDE CANCEL VALUE ===============================> ${value.orderId}" );
       //print("RIDE CANCEL VALUE ===============================> ${value.status}" );
       getCurrentRequest();
@@ -1074,1013 +1071,1043 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
             ),
           ],
         ),
-        body:sharedPref.getInt(IS_Verified_Driver) == 0?DocVerificationPendingPage(): driverLocation != null
-            ? Stack(
-                children: [
-                  GoogleMap(
-                    mapToolbarEnabled: false,
-                    zoomControlsEnabled: false,
-                    myLocationEnabled: true,
-                    onMapCreated: onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: driverLocation!,
-                      zoom: 11.0,
-                    ),
-                    markers: markers,
-                    mapType: MapType.normal,
-                    polylines: _polyLines,
-                  ),
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: 40,
-                    child: FlutterSwitch(
-                      value: isOffLine,
-                      width: 100,
-                      height: 35,
-                      toggleSize: 25,
-                      borderRadius: 30.0,
-                      padding: 4.0,
-                      inactiveText: language.offLine,
-                      activeText: language.online,
-                      showOnOff: true,
-                      activeTextColor: Colors.green,
-                      inactiveTextColor: Colors.black,
-                      activeIcon: ImageIcon(
-                          AssetImage('images/ic_green_car.png'),
-                          color: Colors.white,
-                          size: 40),
-                      inactiveIcon: ImageIcon(
-                          AssetImage('images/ic_red_car.png'),
-                          color: Colors.white,
-                          size: 40),
-                      activeColor: Colors.white,
-                      activeToggleColor: Colors.green,
-                      inactiveToggleColor: Colors.red,
-                      inactiveColor: Colors.white,
-                      onToggle: (value) async {
-                        await showConfirmDialogCustom(
-                            dialogType: DialogType.CONFIRMATION,
-                            primaryColor: primaryColor,
-                            title: isOffLine
-                                ? language.areYouCertainOffline
-                                : language.areYouCertainOnline,
-                            context, onAccept: (v) {
-                          driverStatus(status: isOffLine ? 0 : 1);
-                          isOffLine = value;
-                          setState(() {});
-                        });
-                      },
-                    ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        margin: EdgeInsets.only(top: 16),
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                spreadRadius: 1),
-                          ],
-                          borderRadius: BorderRadius.circular(defaultRadius),
+        body: RefreshIndicator(
+          color: Colors.white,
+          backgroundColor: Colors.red,
+          strokeWidth: 4.0,
+          onRefresh: () async {
+           initState();
+          },
+          child: sharedPref.getInt(IS_Verified_Driver) == 0
+              ? ListView(physics: AlwaysScrollableScrollPhysics(),
+                  children: [Center(heightFactor: 2.7,child: DocVerificationPendingPage())],
+                )
+              : driverLocation != null
+                  ? Stack(
+                      children: [
+                        GoogleMap(
+                          mapToolbarEnabled: false,
+                          zoomControlsEnabled: false,
+                          myLocationEnabled: true,
+                          onMapCreated: onMapCreated,
+                          initialCameraPosition: CameraPosition(
+                            target: driverLocation!,
+                            zoom: 11.0,
+                          ),
+                          markers: markers,
+                          mapType: MapType.normal,
+                          polylines: _polyLines,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(right: 8),
-                              padding: EdgeInsets.all(4),
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 40,
+                          child: FlutterSwitch(
+                            value: isOffLine,
+                            width: 100,
+                            height: 35,
+                            toggleSize: 25,
+                            borderRadius: 30.0,
+                            padding: 4.0,
+                            inactiveText: language.offLine,
+                            activeText: language.online,
+                            showOnOff: true,
+                            activeTextColor: Colors.green,
+                            inactiveTextColor: Colors.black,
+                            activeIcon: ImageIcon(
+                                AssetImage('images/ic_green_car.png'),
+                                color: Colors.white,
+                                size: 40),
+                            inactiveIcon: ImageIcon(
+                                AssetImage('images/ic_red_car.png'),
+                                color: Colors.white,
+                                size: 40),
+                            activeColor: Colors.white,
+                            activeToggleColor: Colors.green,
+                            inactiveToggleColor: Colors.red,
+                            inactiveColor: Colors.white,
+                            onToggle: (value) async {
+                              await showConfirmDialogCustom(
+                                  dialogType: DialogType.CONFIRMATION,
+                                  primaryColor: primaryColor,
+                                  title: isOffLine
+                                      ? language.areYouCertainOffline
+                                      : language.areYouCertainOnline,
+                                  context, onAccept: (v) {
+                                driverStatus(status: isOffLine ? 0 : 1);
+                                isOffLine = value;
+                                setState(() {});
+                              });
+                            },
+                          ),
+                        ),
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              margin: EdgeInsets.only(top: 16),
+                              padding: EdgeInsets.all(5),
                               decoration: BoxDecoration(
-                                  color: isOffLine ? Colors.green : Colors.grey,
-                                  shape: BoxShape.circle),
-                            ),
-                            Text(
-                                isOffLine
-                                    ? language.youAreOnlineNow
-                                    : language.youAreOfflineNow,
-                                style: secondaryTextStyle(color: primaryColor)),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  servicesListData != null
-                      ? servicesListData!.status != null &&
-                              servicesListData!.status == NEW_RIDE_REQUESTED
-                          ? SizedBox.expand(
-                              child: Stack(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      spreadRadius: 1),
+                                ],
+                                borderRadius:
+                                    BorderRadius.circular(defaultRadius),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  DraggableScrollableSheet(
-                                    initialChildSize: 0.45,
-                                    minChildSize: 0.45,
-                                    builder: (
-                                      BuildContext context,
-                                      ScrollController scrollController,
-                                    ) {
-                                      scrollController.addListener(() {
-                                        //
-                                      });
-                                      return servicesListData != null
-                                          ? Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft: Radius.circular(
+                                  Container(
+                                    alignment: Alignment.center,
+                                    margin: EdgeInsets.only(right: 8),
+                                    padding: EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                        color: isOffLine
+                                            ? Colors.green
+                                            : Colors.grey,
+                                        shape: BoxShape.circle),
+                                  ),
+                                  Text(
+                                      isOffLine
+                                          ? language.youAreOnlineNow
+                                          : language.youAreOfflineNow,
+                                      style: secondaryTextStyle(
+                                          color: primaryColor)),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        servicesListData != null
+                            ? servicesListData!.status != null &&
+                                    servicesListData!.status ==
+                                        NEW_RIDE_REQUESTED
+                                ? SizedBox.expand(
+                                    child: Stack(
+                                      children: [
+                                        DraggableScrollableSheet(
+                                          initialChildSize: 0.45,
+                                          minChildSize: 0.45,
+                                          builder: (
+                                            BuildContext context,
+                                            ScrollController scrollController,
+                                          ) {
+                                            scrollController.addListener(() {
+                                              //
+                                            });
+                                            return servicesListData != null
+                                                ? Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.only(
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  defaultRadius),
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  defaultRadius)),
+                                                    ),
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      controller:
+                                                          scrollController,
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Align(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Container(
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      top: 16),
+                                                              height: 6,
+                                                              width: 60,
+                                                              decoration: BoxDecoration(
+                                                                  color:
+                                                                      primaryColor,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              defaultRadius)),
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 16),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 16),
+                                                            child: Text(
+                                                                language
+                                                                    .requests,
+                                                                style:
+                                                                    primaryTextStyle(
+                                                                        size:
+                                                                            18)),
+                                                          ),
+                                                          SizedBox(height: 8),
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    top: 8,
+                                                                    bottom: 8,
+                                                                    left: 16,
+                                                                    right: 16),
+                                                            width:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          defaultRadius),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                    color: Colors
+                                                                        .black
+                                                                        .withOpacity(
+                                                                            0.2),
+                                                                    blurRadius:
+                                                                        3),
+                                                              ],
+                                                            ),
+                                                            child: Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(8),
+                                                              child: Column(
+                                                                children: [
+                                                                  Row(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      ClipRRect(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(defaultRadius),
+                                                                        child: commonCachedNetworkImage(
+                                                                            servicesListData!.riderProfileImage
+                                                                                .validate(),
+                                                                            height:
+                                                                                35,
+                                                                            width:
+                                                                                35,
+                                                                            fit:
+                                                                                BoxFit.cover),
+                                                                      ),
+                                                                      SizedBox(
+                                                                          width:
+                                                                              12),
+                                                                      Expanded(
+                                                                        child:
+                                                                            Column(
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text('${servicesListData!.riderName}',
+                                                                                style: boldTextStyle(size: 14)),
+                                                                            SizedBox(height: 4),
+                                                                            Text('${servicesListData!.riderEmail.validate()}',
+                                                                                style: secondaryTextStyle()),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      Container(
+                                                                        decoration: BoxDecoration(
+                                                                            color:
+                                                                                primaryColor,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(defaultRadius)),
+                                                                        padding:
+                                                                            EdgeInsets.all(6),
+                                                                        child: Text(
+                                                                            "$duration",
+                                                                            style:
+                                                                                boldTextStyle(color: Colors.white)),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          16),
+                                                                  Divider(
+                                                                      color: Colors
+                                                                          .grey
+                                                                          .withOpacity(
+                                                                              0.5),
+                                                                      height: 0,
+                                                                      indent:
+                                                                          15,
+                                                                      endIndent:
+                                                                          15),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          16),
+                                                                  Row(
+                                                                    children: [
+                                                                      Column(
+                                                                        children: [
+                                                                          Icon(
+                                                                              Icons.near_me,
+                                                                              color: Colors.green,
+                                                                              size: 18),
+                                                                          SizedBox(
+                                                                              height: 2),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                34,
+                                                                            child:
+                                                                                DottedLine(
+                                                                              direction: Axis.vertical,
+                                                                              lineLength: double.infinity,
+                                                                              lineThickness: 1,
+                                                                              dashLength: 2,
+                                                                              dashColor: primaryColor,
+                                                                            ),
+                                                                          ),
+                                                                          SizedBox(
+                                                                              height: 2),
+                                                                          Icon(
+                                                                              Icons.location_on,
+                                                                              color: Colors.red,
+                                                                              size: 18),
+                                                                        ],
+                                                                      ),
+                                                                      SizedBox(
+                                                                          width:
+                                                                              16),
+                                                                      Expanded(
+                                                                        child:
+                                                                            Column(
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            SizedBox(height: 2),
+                                                                            Text(servicesListData!.startAddress.validate(),
+                                                                                style: primaryTextStyle(size: 14),
+                                                                                maxLines: 2),
+                                                                            SizedBox(height: 22),
+                                                                            Text(servicesListData!.endAddress.validate(),
+                                                                                style: primaryTextStyle(size: 14),
+                                                                                maxLines: 2),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          8),
+                                                                  Divider(
+                                                                      color: Colors
+                                                                          .grey
+                                                                          .withOpacity(
+                                                                              0.5),
+                                                                      height: 0,
+                                                                      indent:
+                                                                          15,
+                                                                      endIndent:
+                                                                          15),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          8),
+                                                                  Row(
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child:
+                                                                            inkWellWidget(
+                                                                          onTap:
+                                                                              () {
+                                                                            showConfirmDialogCustom(
+                                                                                dialogType: DialogType.DELETE,
+                                                                                primaryColor: primaryColor,
+                                                                                title: language.areYouSureYouWantToCancelThisRequest,
+                                                                                positiveText: language.yes,
+                                                                                negativeText: language.no,
+                                                                                context, onAccept: (v) {
+                                                                              //timerData.cancel();
+                                                                              sharedPref.remove(ON_RIDE_MODEL);
+                                                                              sharedPref.remove(IS_TIME2);
+                                                                              rideRequestAccept(deCline: true);
+                                                                              // Navigator.pop(
+                                                                              //     context);
+                                                                            });
+                                                                          },
+                                                                          child:
+                                                                              Container(
+                                                                            padding:
+                                                                                EdgeInsets.all(8),
+                                                                            decoration:
+                                                                                BoxDecoration(borderRadius: BorderRadius.circular(defaultRadius), border: Border.all(color: Colors.red)),
+                                                                            child: Text(language.decline,
+                                                                                style: boldTextStyle(color: Colors.red),
+                                                                                textAlign: TextAlign.center),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                          width:
+                                                                              16),
+                                                                      Expanded(
+                                                                        child:
+                                                                            AppButtonWidget(
+                                                                          padding:
+                                                                              EdgeInsets.zero,
+                                                                          text:
+                                                                              language.accept,
+                                                                          shapeBorder:
+                                                                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(defaultRadius)),
+                                                                          color:
+                                                                              primaryColor,
+                                                                          textStyle:
+                                                                              boldTextStyle(color: Colors.white),
+                                                                          onTap:
+                                                                              () {
+                                                                            showConfirmDialogCustom(
+                                                                                primaryColor: primaryColor,
+                                                                                dialogType: DialogType.ACCEPT,
+                                                                                positiveText: language.yes,
+                                                                                negativeText: language.no,
+                                                                                title: language.areYouSureYouWantToAcceptThisRequest,
+                                                                                context, onAccept: (v) {
+                                                                              //timerData.cancel();
+                                                                              sharedPref.remove(IS_TIME2);
+                                                                              sharedPref.remove(ON_RIDE_MODEL);
+                                                                              rideRequestAccept();
+                                                                              setState(() {
+                                                                                shouldShowFloatingAction = true;
+                                                                              });
+                                                                            });
+                                                                          },
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )
+                                                : SizedBox();
+                                          },
+                                        ),
+                                        // Observer(builder: (context) {
+                                        //   return appStore.isLoading
+                                        //       ? loaderWidget()
+                                        //       : SizedBox();
+                                        // })
+                                      ],
+                                    ),
+                                  )
+                                : Positioned(
+                                    bottom: 0,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      padding: EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.only(
+                                            topLeft:
+                                                Radius.circular(defaultRadius),
+                                            topRight:
+                                                Radius.circular(defaultRadius)),
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(
                                                         defaultRadius),
-                                                    topRight: Radius.circular(
-                                                        defaultRadius)),
+                                                child: commonCachedNetworkImage(
+                                                    servicesListData!
+                                                        .riderProfileImage,
+                                                    height: 35,
+                                                    width: 35,
+                                                    fit: BoxFit.cover),
                                               ),
-                                              child: SingleChildScrollView(
-                                                controller: scrollController,
+                                              SizedBox(width: 12),
+                                              Expanded(
                                                 child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Align(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: Container(
-                                                        margin: EdgeInsets.only(
-                                                            top: 16),
-                                                        height: 6,
-                                                        width: 60,
-                                                        decoration: BoxDecoration(
-                                                            color: primaryColor,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        defaultRadius)),
-                                                        alignment:
-                                                            Alignment.center,
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: 16),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 16),
-                                                      child: Text(
-                                                          language.requests,
-                                                          style:
-                                                              primaryTextStyle(
-                                                                  size: 18)),
-                                                    ),
-                                                    SizedBox(height: 8),
-                                                    Container(
-                                                      margin: EdgeInsets.only(
-                                                          top: 8,
-                                                          bottom: 8,
-                                                          left: 16,
-                                                          right: 16),
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                defaultRadius),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                              color: Colors
-                                                                  .black
-                                                                  .withOpacity(
-                                                                      0.2),
-                                                              blurRadius: 3),
-                                                        ],
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsets.all(8),
-                                                        child: Column(
-                                                          children: [
-                                                            Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                ClipRRect(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              defaultRadius),
-                                                                  child: commonCachedNetworkImage(
-                                                                      servicesListData!
-                                                                          .riderProfileImage
-                                                                          .validate(),
-                                                                      height:
-                                                                          35,
-                                                                      width: 35,
-                                                                      fit: BoxFit
-                                                                          .cover),
-                                                                ),
-                                                                SizedBox(
-                                                                    width: 12),
-                                                                Expanded(
-                                                                  child: Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Text(
-                                                                          '${servicesListData!.riderName}',
-                                                                          style:
-                                                                              boldTextStyle(size: 14)),
-                                                                      SizedBox(
-                                                                          height:
-                                                                              4),
-                                                                      Text(
-                                                                          '${servicesListData!.riderEmail.validate()}',
-                                                                          style:
-                                                                              secondaryTextStyle()),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Container(
-                                                                  decoration: BoxDecoration(
-                                                                      color:
-                                                                          primaryColor,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              defaultRadius)),
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              6),
-                                                                  child: Text(
-                                                                      "$duration",
-                                                                      style: boldTextStyle(
-                                                                          color:
-                                                                              Colors.white)),
-                                                                )
-                                                              ],
-                                                            ),
-                                                            SizedBox(
-                                                                height: 16),
-                                                            Divider(
-                                                                color: Colors
-                                                                    .grey
-                                                                    .withOpacity(
-                                                                        0.5),
-                                                                height: 0,
-                                                                indent: 15,
-                                                                endIndent: 15),
-                                                            SizedBox(
-                                                                height: 16),
-                                                            Row(
-                                                              children: [
-                                                                Column(
-                                                                  children: [
-                                                                    Icon(
-                                                                        Icons
-                                                                            .near_me,
-                                                                        color: Colors
-                                                                            .green,
-                                                                        size:
-                                                                            18),
-                                                                    SizedBox(
-                                                                        height:
-                                                                            2),
-                                                                    SizedBox(
-                                                                      height:
-                                                                          34,
-                                                                      child:
-                                                                          DottedLine(
-                                                                        direction:
-                                                                            Axis.vertical,
-                                                                        lineLength:
-                                                                            double.infinity,
-                                                                        lineThickness:
-                                                                            1,
-                                                                        dashLength:
-                                                                            2,
-                                                                        dashColor:
-                                                                            primaryColor,
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                        height:
-                                                                            2),
-                                                                    Icon(
-                                                                        Icons
-                                                                            .location_on,
-                                                                        color: Colors
-                                                                            .red,
-                                                                        size:
-                                                                            18),
-                                                                  ],
-                                                                ),
-                                                                SizedBox(
-                                                                    width: 16),
-                                                                Expanded(
-                                                                  child: Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      SizedBox(
-                                                                          height:
-                                                                              2),
-                                                                      Text(
-                                                                          servicesListData!
-                                                                              .startAddress
-                                                                              .validate(),
-                                                                          style: primaryTextStyle(
-                                                                              size:
-                                                                                  14),
-                                                                          maxLines:
-                                                                              2),
-                                                                      SizedBox(
-                                                                          height:
-                                                                              22),
-                                                                      Text(
-                                                                          servicesListData!
-                                                                              .endAddress
-                                                                              .validate(),
-                                                                          style: primaryTextStyle(
-                                                                              size:
-                                                                                  14),
-                                                                          maxLines:
-                                                                              2),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            SizedBox(height: 8),
-                                                            Divider(
-                                                                color: Colors
-                                                                    .grey
-                                                                    .withOpacity(
-                                                                        0.5),
-                                                                height: 0,
-                                                                indent: 15,
-                                                                endIndent: 15),
-                                                            SizedBox(height: 8),
-                                                            Row(
-                                                              children: [
-                                                                Expanded(
-                                                                  child:
-                                                                      inkWellWidget(
-                                                                    onTap: () {
-                                                                      showConfirmDialogCustom(
-                                                                          dialogType: DialogType
-                                                                              .DELETE,
-                                                                          primaryColor:
-                                                                              primaryColor,
-                                                                          title: language
-                                                                              .areYouSureYouWantToCancelThisRequest,
-                                                                          positiveText: language
-                                                                              .yes,
-                                                                          negativeText: language
-                                                                              .no,
-                                                                          context,
-                                                                          onAccept:
-                                                                              (v) {
-                                                                        //timerData.cancel();
-                                                                        sharedPref.remove(ON_RIDE_MODEL);
-                                                                        sharedPref.remove(IS_TIME2);
-                                                                        rideRequestAccept(deCline: true);
-                                                                        // Navigator.pop(
-                                                                        //     context);
-                                                                      });
-                                                                    },
-                                                                    child:
-                                                                        Container(
-                                                                      padding:
-                                                                          EdgeInsets.all(
-                                                                              8),
-                                                                      decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              defaultRadius),
-                                                                          border:
-                                                                              Border.all(color: Colors.red)),
-                                                                      child: Text(
-                                                                          language
-                                                                              .decline,
-                                                                          style:
-                                                                              boldTextStyle(color: Colors.red),
-                                                                          textAlign: TextAlign.center),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                    width: 16),
-                                                                Expanded(
-                                                                  child:
-                                                                      AppButtonWidget(
-                                                                    padding:
-                                                                        EdgeInsets
-                                                                            .zero,
-                                                                    text: language
-                                                                        .accept,
-                                                                    shapeBorder:
-                                                                        RoundedRectangleBorder(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(defaultRadius)),
-                                                                    color:
-                                                                        primaryColor,
-                                                                    textStyle: boldTextStyle(
-                                                                        color: Colors
-                                                                            .white),
-                                                                    onTap: () {
-                                                                      showConfirmDialogCustom(
-                                                                          primaryColor:
-                                                                              primaryColor,
-                                                                          dialogType: DialogType
-                                                                              .ACCEPT,
-                                                                          positiveText: language
-                                                                              .yes,
-                                                                          negativeText: language
-                                                                              .no,
-                                                                          title: language
-                                                                              .areYouSureYouWantToAcceptThisRequest,
-                                                                          context,
-                                                                          onAccept:
-                                                                              (v) {
-                                                                        //timerData.cancel();
-                                                                        sharedPref
-                                                                            .remove(IS_TIME2);
-                                                                        sharedPref
-                                                                            .remove(ON_RIDE_MODEL);
-                                                                        rideRequestAccept();
-                                                                        setState(
-                                                                            () {
-                                                                          shouldShowFloatingAction =
-                                                                              true;
-                                                                        });
-                                                                      });
-                                                                    },
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
+                                                    Text(
+                                                        '${servicesListData!.riderName}',
+                                                        style: boldTextStyle(
+                                                            size: 14)),
+                                                    SizedBox(height: 4),
+                                                    Text(
+                                                        '${servicesListData!.riderEmail.validate()}',
+                                                        style:
+                                                            secondaryTextStyle()),
                                                   ],
                                                 ),
                                               ),
-                                            )
-                                          : SizedBox();
-                                    },
-                                  ),
-                                  // Observer(builder: (context) {
-                                  //   return appStore.isLoading
-                                  //       ? loaderWidget()
-                                  //       : SizedBox();
-                                  // })
-                                ],
-                              ),
-                            )
-                          : Positioned(
-                              bottom: 0,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                padding: EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(defaultRadius),
-                                      topRight: Radius.circular(defaultRadius)),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                              defaultRadius),
-                                          child: commonCachedNetworkImage(
-                                              servicesListData!
-                                                  .riderProfileImage,
-                                              height: 35,
-                                              width: 35,
-                                              fit: BoxFit.cover),
-                                        ),
-                                        SizedBox(width: 12),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                  '${servicesListData!.riderName}',
-                                                  style:
-                                                      boldTextStyle(size: 14)),
-                                              SizedBox(height: 4),
-                                              Text(
-                                                  '${servicesListData!.riderEmail.validate()}',
-                                                  style: secondaryTextStyle()),
-                                            ],
-                                          ),
-                                        ),
-                                        inkWellWidget(
-                                          onTap: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (_) {
-                                                return AlertDialog(
-                                                  contentPadding:
-                                                      EdgeInsets.all(0),
-                                                  content: AlertScreen(
-                                                      rideId:
-                                                          servicesListData!.id,
-                                                      regionId:
-                                                          servicesListData!
-                                                              .regionId),
-                                                );
-                                              },
-                                            );
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 8, vertical: 4),
-                                            decoration: BoxDecoration(
-                                                color: primaryColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        defaultRadius)),
-                                            child: Text(language.sos,
-                                                style: boldTextStyle(
-                                                    color: Colors.white)),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 16),
-                                    Divider(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        height: 0,
-                                        indent: 15,
-                                        endIndent: 15),
-                                    SizedBox(height: 16),
-                                    Row(
-                                      children: [
-                                        Column(
-                                          children: [
-                                            Icon(Icons.near_me,
-                                                color: Colors.green, size: 18),
-                                            SizedBox(height: 2),
-                                            SizedBox(
-                                              height: 34,
-                                              child: DottedLine(
-                                                direction: Axis.vertical,
-                                                lineLength: double.infinity,
-                                                lineThickness: 1,
-                                                dashLength: 2,
-                                                dashColor: primaryColor,
-                                              ),
-                                            ),
-                                            SizedBox(height: 2),
-                                            Icon(Icons.location_on,
-                                                color: Colors.red, size: 18),
-                                          ],
-                                        ),
-                                        SizedBox(width: 16),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(height: 2),
-                                              Text(
-                                                  servicesListData!
-                                                          .startAddress ??
-                                                      ''.validate(),
-                                                  style: primaryTextStyle(
-                                                      size: 14),
-                                                  maxLines: 2),
-                                              SizedBox(height: 22),
-                                              Text(
-                                                  servicesListData!
-                                                          .endAddress ??
-                                                      '',
-                                                  style: primaryTextStyle(
-                                                      size: 14),
-                                                  maxLines: 2),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    /* Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 8),
-                                          child: Column(
-                                            children: [
-                                              Icon(Icons.near_me, color: Colors.green),
-                                              SizedBox(height: 4),
-                                              SizedBox(
-                                                height: 30,
-                                                child: DottedLine(
-                                                  direction: Axis.vertical,
-                                                  lineLength: double.infinity,
-                                                  lineThickness: 2,
-                                                  dashColor: primaryColor,
+                                              inkWellWidget(
+                                                onTap: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (_) {
+                                                      return AlertDialog(
+                                                        contentPadding:
+                                                            EdgeInsets.all(0),
+                                                        content: AlertScreen(
+                                                            rideId:
+                                                                servicesListData!
+                                                                    .id,
+                                                            regionId:
+                                                                servicesListData!
+                                                                    .regionId),
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 4),
+                                                  decoration: BoxDecoration(
+                                                      color: primaryColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              defaultRadius)),
+                                                  child: Text(language.sos,
+                                                      style: boldTextStyle(
+                                                          color: Colors.white)),
                                                 ),
                                               ),
-                                              SizedBox(height: 4),
-                                              Icon(Icons.location_on, color: Colors.red),
                                             ],
                                           ),
-                                        ),
-                                        SizedBox(width: 16),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: EdgeInsets.only(bottom: 0, top: 14),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(servicesListData!.startAddress ?? '', style: primaryTextStyle(size: 14), maxLines: 2),
-                                                SizedBox(height: 8),
-                                                Text(servicesListData!.endAddress ?? '', style: primaryTextStyle(size: 14), maxLines: 2),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),*/
-                                    SizedBox(height: 16),
-                                    Divider(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        height: 0,
-                                        indent: 15,
-                                        endIndent: 15),
-                                    SizedBox(height: 8),
-                                    Row(
-                                      mainAxisAlignment:
-                                          servicesListData!.status !=
-                                                  IN_PROGRESS
-                                              ? MainAxisAlignment.spaceAround
-                                              : MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        inkWellWidget(
-                                          onTap: () {
-                                            if (servicesListData!
-                                                    .isRideForOther ==
-                                                1) {
-                                              launchUrl(
-                                                  Uri.parse(
-                                                      'tel:${servicesListData!.otherRiderData!.conatctNumber}'),
-                                                  mode: LaunchMode
-                                                      .externalApplication);
-                                            } else {
-                                              launchUrl(
-                                                  Uri.parse(
-                                                      'tel:${servicesListData!.riderContactNumber}'),
-                                                  mode: LaunchMode
-                                                      .externalApplication);
-                                            }
-                                          },
-                                          child: Column(
+                                          SizedBox(height: 16),
+                                          Divider(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              height: 0,
+                                              indent: 15,
+                                              endIndent: 15),
+                                          SizedBox(height: 16),
+                                          Row(
                                             children: [
-                                              Icon(Icons.call,
-                                                  size: 25,
-                                                  color: primaryColor),
-                                              SizedBox(height: 4),
-                                              Text(language.call,
-                                                  style: secondaryTextStyle()),
-                                            ],
-                                          ),
-                                        ),
-                                        inkWellWidget(
-                                          onTap: () {
-                                            if (riderData != null) {
-                                              log(riderData!.username);
-                                              launchScreen(
-                                                  context,
-                                                  ChatScreen(
-                                                      userData: riderData));
-                                            }
-                                          },
-                                          child: Column(
-                                            children: [
-                                              Icon(Icons.chat,
-                                                  size: 25,
-                                                  color: primaryColor),
-                                              SizedBox(height: 4),
-                                              Text(language.chat,
-                                                  style: secondaryTextStyle()),
-                                            ],
-                                          ),
-                                        ),
-                                        /* if (servicesListData!.status != IN_PROGRESS)
-                                          inkWellWidget(
-                                            onTap: () {
-                                              showConfirmDialogCustom(
-                                                  dialogType: DialogType.CONFIRMATION,
-                                                  positiveText: language.yes,
-                                                  negativeText: language.no,
-                                                  primaryColor: primaryColor,
-                                                  title: language.areYouSureYouWantToCancelThisRide,
-                                                  context, onAccept: (v) {
-                                                rideRequest(status: CANCELED);
-                                              });
-                                            },
-                                            child: Column(
-                                              children: [
-                                                Icon(Icons.close, size: 25, color: primaryColor),
-                                                SizedBox(height: 4),
-                                                Text(language.cancel, style: secondaryTextStyle()),
-                                              ],
-                                            ),
-                                          )*/
-                                      ],
-                                    ),
-                                    if (servicesListData!.status == IN_PROGRESS)
-                                      SizedBox(height: 16),
-                                    if (servicesListData!.status == IN_PROGRESS)
-                                      if (appStore.extraChargeValue != null)
-                                        Observer(builder: (context) {
-                                          return Visibility(
-                                            visible: int.parse(appStore
-                                                    .extraChargeValue!) !=
-                                                0,
-                                            child: inkWellWidget(
-                                              onTap: () async {
-                                                List<ExtraChargeRequestModel>?
-                                                    extraChargeListData =
-                                                    await showModalBottomSheet(
-                                                  context: context,
-                                                  builder: (_) {
-                                                    return Padding(
-                                                      padding:
-                                                          MediaQuery.of(context)
-                                                              .viewInsets,
-                                                      child: ExtraChargesWidget(
-                                                          data:
-                                                              extraChargeList),
-                                                    );
-                                                  },
-                                                );
-                                                if (extraChargeListData !=
-                                                    null) {
-                                                  extraChargeAmount = 0;
-                                                  extraChargeList.clear();
-                                                  extraChargeListData
-                                                      .forEach((element) {
-                                                    extraChargeAmount =
-                                                        extraChargeAmount +
-                                                            element.value!;
-                                                    extraChargeList =
-                                                        extraChargeListData;
-                                                  });
-                                                }
-                                              },
-                                              child: Row(
+                                              Column(
                                                 children: [
-                                                  Icon(Icons.add),
-                                                  SizedBox(width: 16),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                          language
-                                                              .applyExtraFree,
-                                                          style:
-                                                              primaryTextStyle()),
-                                                      SizedBox(height: 2),
-                                                      if (extraChargeAmount !=
-                                                          0)
-                                                        Text(
-                                                            '${language.extraCharges} ${extraChargeAmount.toString()}',
-                                                            style:
-                                                                secondaryTextStyle(
-                                                                    color: Colors
-                                                                        .green)),
-                                                    ],
+                                                  Icon(Icons.near_me,
+                                                      color: Colors.green,
+                                                      size: 18),
+                                                  SizedBox(height: 2),
+                                                  SizedBox(
+                                                    height: 34,
+                                                    child: DottedLine(
+                                                      direction: Axis.vertical,
+                                                      lineLength:
+                                                          double.infinity,
+                                                      lineThickness: 1,
+                                                      dashLength: 2,
+                                                      dashColor: primaryColor,
+                                                    ),
                                                   ),
+                                                  SizedBox(height: 2),
+                                                  Icon(Icons.location_on,
+                                                      color: Colors.red,
+                                                      size: 18),
+                                                ],
+                                              ),
+                                              SizedBox(width: 16),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(height: 2),
+                                                    Text(
+                                                        servicesListData!
+                                                                .startAddress ??
+                                                            ''.validate(),
+                                                        style: primaryTextStyle(
+                                                            size: 14),
+                                                        maxLines: 2),
+                                                    SizedBox(height: 22),
+                                                    Text(
+                                                        servicesListData!
+                                                                .endAddress ??
+                                                            '',
+                                                        style: primaryTextStyle(
+                                                            size: 14),
+                                                        maxLines: 2),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          /* Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 8),
+                                            child: Column(
+                                              children: [
+                                                Icon(Icons.near_me, color: Colors.green),
+                                                SizedBox(height: 4),
+                                                SizedBox(
+                                                  height: 30,
+                                                  child: DottedLine(
+                                                    direction: Axis.vertical,
+                                                    lineLength: double.infinity,
+                                                    lineThickness: 2,
+                                                    dashColor: primaryColor,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 4),
+                                                Icon(Icons.location_on, color: Colors.red),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(width: 16),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: EdgeInsets.only(bottom: 0, top: 14),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(servicesListData!.startAddress ?? '', style: primaryTextStyle(size: 14), maxLines: 2),
+                                                  SizedBox(height: 8),
+                                                  Text(servicesListData!.endAddress ?? '', style: primaryTextStyle(size: 14), maxLines: 2),
                                                 ],
                                               ),
                                             ),
-                                          );
-                                        }),
-                                    SizedBox(height: 16),
-                                    AppButtonWidget(
-                                      width: MediaQuery.of(context).size.width,
-                                      text: buttonText(
-                                          status: servicesListData!.status),
-                                      color: primaryColor,
-                                      textStyle:
-                                          boldTextStyle(color: Colors.white),
-                                      onTap: () async {
-                                        if (await checkPermission()) {
+                                          ),
+                                        ],
+                                      ),*/
+                                          SizedBox(height: 16),
+                                          Divider(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              height: 0,
+                                              indent: 15,
+                                              endIndent: 15),
+                                          SizedBox(height: 8),
+                                          Row(
+                                            mainAxisAlignment: servicesListData!
+                                                        .status !=
+                                                    IN_PROGRESS
+                                                ? MainAxisAlignment.spaceAround
+                                                : MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              inkWellWidget(
+                                                onTap: () {
+                                                  if (servicesListData!
+                                                          .isRideForOther ==
+                                                      1) {
+                                                    launchUrl(
+                                                        Uri.parse(
+                                                            'tel:${servicesListData!.otherRiderData!.conatctNumber}'),
+                                                        mode: LaunchMode
+                                                            .externalApplication);
+                                                  } else {
+                                                    launchUrl(
+                                                        Uri.parse(
+                                                            'tel:${servicesListData!.riderContactNumber}'),
+                                                        mode: LaunchMode
+                                                            .externalApplication);
+                                                  }
+                                                },
+                                                child: Column(
+                                                  children: [
+                                                    Icon(Icons.call,
+                                                        size: 25,
+                                                        color: primaryColor),
+                                                    SizedBox(height: 4),
+                                                    Text(language.call,
+                                                        style:
+                                                            secondaryTextStyle()),
+                                                  ],
+                                                ),
+                                              ),
+                                              inkWellWidget(
+                                                onTap: () {
+                                                  if (riderData != null) {
+                                                    log(riderData!.username);
+                                                    launchScreen(
+                                                        context,
+                                                        ChatScreen(
+                                                            userData:
+                                                                riderData));
+                                                  }
+                                                },
+                                                child: Column(
+                                                  children: [
+                                                    Icon(Icons.chat,
+                                                        size: 25,
+                                                        color: primaryColor),
+                                                    SizedBox(height: 4),
+                                                    Text(language.chat,
+                                                        style:
+                                                            secondaryTextStyle()),
+                                                  ],
+                                                ),
+                                              ),
+                                              /* if (servicesListData!.status != IN_PROGRESS)
+                                            inkWellWidget(
+                                              onTap: () {
+                                                showConfirmDialogCustom(
+                                                    dialogType: DialogType.CONFIRMATION,
+                                                    positiveText: language.yes,
+                                                    negativeText: language.no,
+                                                    primaryColor: primaryColor,
+                                                    title: language.areYouSureYouWantToCancelThisRide,
+                                                    context, onAccept: (v) {
+                                                  rideRequest(status: CANCELED);
+                                                });
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Icon(Icons.close, size: 25, color: primaryColor),
+                                                  SizedBox(height: 4),
+                                                  Text(language.cancel, style: secondaryTextStyle()),
+                                                ],
+                                              ),
+                                            )*/
+                                            ],
+                                          ),
                                           if (servicesListData!.status ==
-                                              ACCEPTED) {
-                                            showConfirmDialogCustom(
-                                                primaryColor: primaryColor,
-                                                positiveText: language.yes,
-                                                negativeText: language.no,
-                                                dialogType:
-                                                    DialogType.CONFIRMATION,
-                                                title: language
-                                                    .areYouSureYouWantToArriving,
-                                                context, onAccept: (v) {
-                                              rideRequest(status: ARRIVING);
-                                            });
-                                          } else if (servicesListData!.status ==
-                                              ARRIVING) {
-                                            showConfirmDialogCustom(
-                                                primaryColor: primaryColor,
-                                                positiveText: language.yes,
-                                                negativeText: language.no,
-                                                dialogType:
-                                                    DialogType.CONFIRMATION,
-                                                title: language
-                                                    .areYouSureYouWantToArrived,
-                                                context, onAccept: (v) {
-                                              rideRequest(status: ARRIVED);
-                                            });
-                                          } else if (servicesListData!.status ==
-                                              ARRIVED) {
-                                            showDialog(
-                                              context: context,
-                                              builder: (_) {
-                                                return AlertDialog(
-                                                  content: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Align(
-                                                        alignment:
-                                                            Alignment.topRight,
-                                                        child: inkWellWidget(
-                                                          onTap: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          child: Container(
+                                              IN_PROGRESS)
+                                            SizedBox(height: 16),
+                                          if (servicesListData!.status ==
+                                              IN_PROGRESS)
+                                            if (appStore.extraChargeValue !=
+                                                null)
+                                              Observer(builder: (context) {
+                                                return Visibility(
+                                                  visible: int.parse(appStore
+                                                          .extraChargeValue!) !=
+                                                      0,
+                                                  child: inkWellWidget(
+                                                    onTap: () async {
+                                                      List<ExtraChargeRequestModel>?
+                                                          extraChargeListData =
+                                                          await showModalBottomSheet(
+                                                        context: context,
+                                                        builder: (_) {
+                                                          return Padding(
                                                             padding:
-                                                                EdgeInsets.all(
-                                                                    4),
-                                                            decoration: BoxDecoration(
-                                                                color:
-                                                                    primaryColor,
-                                                                shape: BoxShape
-                                                                    .circle),
-                                                            child: Icon(
-                                                                Icons.close,
-                                                                size: 20,
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .viewInsets,
+                                                            child: ExtraChargesWidget(
+                                                                data:
+                                                                    extraChargeList),
+                                                          );
+                                                        },
+                                                      );
+                                                      if (extraChargeListData !=
+                                                          null) {
+                                                        extraChargeAmount = 0;
+                                                        extraChargeList.clear();
+                                                        extraChargeListData
+                                                            .forEach((element) {
+                                                          extraChargeAmount =
+                                                              extraChargeAmount +
+                                                                  element
+                                                                      .value!;
+                                                          extraChargeList =
+                                                              extraChargeListData;
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(Icons.add),
+                                                        SizedBox(width: 16),
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                                language
+                                                                    .applyExtraFree,
+                                                                style:
+                                                                    primaryTextStyle()),
+                                                            SizedBox(height: 2),
+                                                            if (extraChargeAmount !=
+                                                                0)
+                                                              Text(
+                                                                  '${language.extraCharges} ${extraChargeAmount.toString()}',
+                                                                  style: secondaryTextStyle(
+                                                                      color: Colors
+                                                                          .green)),
+                                                          ],
                                                         ),
-                                                      ),
-                                                      SizedBox(height: 8),
-                                                      Center(
-                                                        child: Text(
-                                                            language.enterOtp,
-                                                            style:
-                                                                boldTextStyle(),
-                                                            textAlign: TextAlign
-                                                                .center),
-                                                      ),
-                                                      SizedBox(height: 16),
-                                                      Text(
-                                                        language
-                                                            .enterTheOtpDisplayInCustomersMobileToStartTheRide,
-                                                        style:
-                                                            secondaryTextStyle(
-                                                                size: 12),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
-                                                      SizedBox(height: 16),
-                                                      OTPTextField(
-                                                        controller:
-                                                            otpController,
-                                                        length: 4,
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        fieldWidth: 40,
-                                                        style:
-                                                            primaryTextStyle(),
-                                                        textFieldAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceAround,
-                                                        fieldStyle:
-                                                            FieldStyle.box,
-                                                        onCompleted: (val) {
-                                                          otpCheck = val;
-                                                        },
-                                                        onChanged: (s) {
-                                                          //
-                                                        },
-                                                      ),
-                                                      SizedBox(height: 16),
-                                                      AppButtonWidget(
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        text: language.confirm,
-                                                        color: primaryColor,
-                                                        textStyle:
-                                                            boldTextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                        onTap: () {
-                                                          if (otpCheck ==
-                                                                  null ||
-                                                              otpCheck !=
-                                                                  servicesListData!
-                                                                      .otp) {
-                                                            return toast(language
-                                                                .pleaseEnterValidOtp);
-                                                          } else {
-                                                            Navigator.pop(
-                                                                context);
-                                                            rideRequest(
-                                                                status:
-                                                                    IN_PROGRESS);
-                                                            setState(() {
-                                                              isStartRide =
-                                                                  true;
-                                                            });
-                                                          }
-                                                        },
-                                                      )
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                 );
-                                              },
-                                            );
-                                          } else if (servicesListData!.status ==
-                                              IN_PROGRESS) {
-                                            showConfirmDialogCustom(
-                                                primaryColor: primaryColor,
-                                                dialogType: DialogType.ACCEPT,
-                                                title: language
-                                                    .areYouSureYouWantToCompletedThisRide,
-                                                context,
-                                                positiveText: language.yes,
-                                                negativeText: language.no,
-                                                onAccept: (v) {
-                                              setState(() {
-                                                shouldShowFloatingAction =
-                                                    false;
-                                              });
-                                              appStore.setLoading(true);
-                                              getUserLocation()
-                                                  .then((value) async {
-                                                totalDistance =
-                                                    await calculateDistance(
-                                                        double.parse(
-                                                            servicesListData!
-                                                                .startLatitude
-                                                                .validate()),
-                                                        double.parse(
-                                                            servicesListData!
-                                                                .startLongitude
-                                                                .validate()),
-                                                        driverLocation!
-                                                            .latitude,
-                                                        driverLocation!
-                                                            .longitude);
-                                                await completeRideRequest();
-                                              });
-                                            });
-                                          }
-                                        }
-                                      },
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                      : SizedBox(),
-                  // Visibility(
-                  //   visible: appStore.isLoading,
-                  //   child: loaderWidget(),
-                  // ),
-                ],
-              )
-            : loaderWidget(),
+                                              }),
+                                          SizedBox(height: 16),
+                                          AppButtonWidget(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            text: buttonText(
+                                                status:
+                                                    servicesListData!.status),
+                                            color: primaryColor,
+                                            textStyle: boldTextStyle(
+                                                color: Colors.white),
+                                            onTap: () async {
+                                              if (await checkPermission()) {
+                                                if (servicesListData!.status ==
+                                                    ACCEPTED) {
+                                                  showConfirmDialogCustom(
+                                                      primaryColor:
+                                                          primaryColor,
+                                                      positiveText:
+                                                          language.yes,
+                                                      negativeText: language.no,
+                                                      dialogType: DialogType
+                                                          .CONFIRMATION,
+                                                      title: language
+                                                          .areYouSureYouWantToArriving,
+                                                      context, onAccept: (v) {
+                                                    rideRequest(
+                                                        status: ARRIVING);
+                                                  });
+                                                } else if (servicesListData!
+                                                        .status ==
+                                                    ARRIVING) {
+                                                  showConfirmDialogCustom(
+                                                      primaryColor:
+                                                          primaryColor,
+                                                      positiveText:
+                                                          language.yes,
+                                                      negativeText: language.no,
+                                                      dialogType: DialogType
+                                                          .CONFIRMATION,
+                                                      title: language
+                                                          .areYouSureYouWantToArrived,
+                                                      context, onAccept: (v) {
+                                                    rideRequest(
+                                                        status: ARRIVED);
+                                                  });
+                                                } else if (servicesListData!
+                                                        .status ==
+                                                    ARRIVED) {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (_) {
+                                                      return AlertDialog(
+                                                        content: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topRight,
+                                                              child:
+                                                                  inkWellWidget(
+                                                                onTap: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              4),
+                                                                  decoration: BoxDecoration(
+                                                                      color:
+                                                                          primaryColor,
+                                                                      shape: BoxShape
+                                                                          .circle),
+                                                                  child: Icon(
+                                                                      Icons
+                                                                          .close,
+                                                                      size: 20,
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(height: 8),
+                                                            Center(
+                                                              child: Text(
+                                                                  language
+                                                                      .enterOtp,
+                                                                  style:
+                                                                      boldTextStyle(),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center),
+                                                            ),
+                                                            SizedBox(
+                                                                height: 16),
+                                                            Text(
+                                                              language
+                                                                  .enterTheOtpDisplayInCustomersMobileToStartTheRide,
+                                                              style:
+                                                                  secondaryTextStyle(
+                                                                      size: 12),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                            SizedBox(
+                                                                height: 16),
+                                                            OTPTextField(
+                                                              controller:
+                                                                  otpController,
+                                                              length: 4,
+                                                              width:
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width,
+                                                              fieldWidth: 40,
+                                                              style:
+                                                                  primaryTextStyle(),
+                                                              textFieldAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceAround,
+                                                              fieldStyle:
+                                                                  FieldStyle
+                                                                      .box,
+                                                              onCompleted:
+                                                                  (val) {
+                                                                otpCheck = val;
+                                                              },
+                                                              onChanged: (s) {
+                                                                //
+                                                              },
+                                                            ),
+                                                            SizedBox(
+                                                                height: 16),
+                                                            AppButtonWidget(
+                                                              width:
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width,
+                                                              text: language
+                                                                  .confirm,
+                                                              color:
+                                                                  primaryColor,
+                                                              textStyle:
+                                                                  boldTextStyle(
+                                                                      color: Colors
+                                                                          .white),
+                                                              onTap: () {
+                                                                if (otpCheck ==
+                                                                        null ||
+                                                                    otpCheck !=
+                                                                        servicesListData!
+                                                                            .otp) {
+                                                                  return toast(
+                                                                      language
+                                                                          .pleaseEnterValidOtp);
+                                                                } else {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                  rideRequest(
+                                                                      status:
+                                                                          IN_PROGRESS);
+                                                                  setState(() {
+                                                                    isStartRide =
+                                                                        true;
+                                                                  });
+                                                                }
+                                                              },
+                                                            )
+                                                          ],
+                                                        ),
+                                                      );
+                                                    },
+                                                  );
+                                                } else if (servicesListData!
+                                                        .status ==
+                                                    IN_PROGRESS) {
+                                                  showConfirmDialogCustom(
+                                                      primaryColor:
+                                                          primaryColor,
+                                                      dialogType:
+                                                          DialogType.ACCEPT,
+                                                      title: language
+                                                          .areYouSureYouWantToCompletedThisRide,
+                                                      context,
+                                                      positiveText:
+                                                          language.yes,
+                                                      negativeText: language.no,
+                                                      onAccept: (v) {
+                                                    setState(() {
+                                                      shouldShowFloatingAction =
+                                                          false;
+                                                    });
+                                                    appStore.setLoading(true);
+                                                    getUserLocation()
+                                                        .then((value) async {
+                                                      totalDistance = await calculateDistance(
+                                                          double.parse(
+                                                              servicesListData!
+                                                                  .startLatitude
+                                                                  .validate()),
+                                                          double.parse(
+                                                              servicesListData!
+                                                                  .startLongitude
+                                                                  .validate()),
+                                                          driverLocation!
+                                                              .latitude,
+                                                          driverLocation!
+                                                              .longitude);
+                                                      await completeRideRequest();
+                                                    });
+                                                  });
+                                                }
+                                              }
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                            : SizedBox(),
+                        // Visibility(
+                        //   visible: appStore.isLoading,
+                        //   child: loaderWidget(),
+                        // ),
+                      ],
+                    )
+                  : loaderWidget(),
+        ),
       ),
     );
   }

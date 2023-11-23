@@ -201,6 +201,8 @@ class VerifyDeliveryPersonScreenState
               isNewTask: true, pageRouteAnimation: PageRouteAnimation.Slide);
         } else {
           toast('${language.userNotApproveMsg}');
+          launchScreen(context, DriverDashboardScreen(),
+              isNewTask: true, pageRouteAnimation: PageRouteAnimation.Slide);
         }
       }
     }).catchError((error) {

@@ -79,7 +79,8 @@ class FirebaseService_Location {
         FirebaseDatabase.instance.ref(email?.replaceAll(".", ""));
     try {
       await ref.set({"latitude": latitude, "longitude": longitude});
-    } catch (_) {
+    } catch (e) {
+      print('this is the error $e');
       // await ref.set({"latitude": latitude, "longitude": longitude});
       await ref.update({"latitude": latitude, "longitude": longitude});
     }
