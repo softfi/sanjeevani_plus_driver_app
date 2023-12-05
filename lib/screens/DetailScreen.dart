@@ -86,6 +86,7 @@ class DetailScreenState extends State<DetailScreen> {
     appStore.setLoading(true);
     await getCurrentRideRequest().then((value) async {
       appStore.setLoading(false);
+      print("this is the sdfsdfd fsdfsd213142313  231343  ${value}");
       print("this is the sdfsdfd fsdfsd  ${currentData?.id}");
       currentData = value;
       currentData!.payment=Payment(
@@ -524,124 +525,134 @@ print("fsfdfsd fsdfsdf sfsdfsdfsd fsfd $value");
 
                       },),
 
-                      payment!.driverTips!=null?Container(
-                        decoration: BoxDecoration(
-                            color: appStore.isDarkMode
-                                ? scaffoldSecondaryDark
-                                : primaryColor.withOpacity(0.05),
-                            borderRadius: BorderRadius.circular(8)),
-                        padding: EdgeInsets.all(12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(language.priceDetail,
-                                style: boldTextStyle(size: 16)),
-                            Divider(height: 30, thickness: 1),
-                            if (riderModel!.perDistanceCharge != null)
-                              totalCount(
-                                  title: language.basePrice,
-                                  description: '',
-                                  subTitle: '${riderModel!.baseFare}'),
-                            SizedBox(height: 8),
-                            if (riderModel!.perDistanceCharge != null)
-                              totalCount(
-                                  title: language.distancePrice,
-                                  description: '',
-                                  subTitle:
+                      if(payment !=null)...{
+                        if(payment!.driverTips!=null)...{
+                          Container(
+                            decoration: BoxDecoration(
+                                color: appStore.isDarkMode
+                                    ? scaffoldSecondaryDark
+                                    : primaryColor.withOpacity(0.05),
+                                borderRadius: BorderRadius.circular(8)),
+                            padding: EdgeInsets.all(12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(language.priceDetail,
+                                    style: boldTextStyle(size: 16)),
+                                Divider(height: 30, thickness: 1),
+                                if (riderModel!.perDistanceCharge != null)
+                                  totalCount(
+                                      title: language.basePrice,
+                                      description: '',
+                                      subTitle: '${riderModel!.baseFare}'),
+                                SizedBox(height: 8),
+                                if (riderModel!.perDistanceCharge != null)
+                                  totalCount(
+                                      title: language.distancePrice,
+                                      description: '',
+                                      subTitle:
                                       riderModel!.perDistanceCharge.toString()),
-                            SizedBox(height: 8),
-                            if (riderModel!.perMinuteDriveCharge != null)
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Text(language.duration,
-                                        style: primaryTextStyle()),
-                                  ),
-                                  Text('${riderModel!.duration}',
-                                      style: primaryTextStyle()),
-                                ],
-                              ),
-                            SizedBox(height: 8),
-                            totalCount(
-                                title: language.waitTime,
-                                description: '',
-                                subTitle:
-                                    '${riderModel!.perMinuteWaitingCharge}'),
-                            SizedBox(height: 8),
-                            if (payment != null)
-                              totalCount(
-                                  title: language.tip,
-                                  description: '',
-                                  subTitle: payment!.driverTips.toString()),
-                            if (payment != null) SizedBox(height: 16),
-                            if (riderModel!.extraCharges!.isNotEmpty)
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(language.extraCharges,
-                                      style: boldTextStyle()),
-                                  SizedBox(height: 8),
-                                  ...riderModel!.extraCharges!.map((e) {
-                                    return Padding(
-                                      padding:
-                                          EdgeInsets.only(top: 4, bottom: 4),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                              e.key
-                                                  .validate()
-                                                  .capitalizeFirstLetter(),
-                                              style: primaryTextStyle()),
-                                          Text(
-                                              appStore.currencyPosition == LEFT
-                                                  ? '${appStore.currencyCode} ${e.value}'
-                                                  : '${e.value} ${appStore.currencyCode}',
-                                              style: primaryTextStyle()),
-                                        ],
+                                SizedBox(height: 8),
+                                if (riderModel!.perMinuteDriveCharge != null)
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Text(language.duration,
+                                            style: primaryTextStyle()),
                                       ),
-                                    );
-                                  }).toList()
-                                ],
-                              ),
-                            if (riderModel!.couponData != null &&
-                                riderModel!.couponDiscount != 0)
-                              SizedBox(height: 8),
-                            if (riderModel!.couponData != null &&
-                                riderModel!.couponDiscount != 0)
-                              Row(
-                                mainAxisAlignment:
+                                      Text('${riderModel!.duration}',
+                                          style: primaryTextStyle()),
+                                    ],
+                                  ),
+                                SizedBox(height: 8),
+                                totalCount(
+                                    title: language.waitTime,
+                                    description: '',
+                                    subTitle:
+                                    '${riderModel!.perMinuteWaitingCharge}'),
+                                SizedBox(height: 8),
+                                if (payment != null)
+                                  totalCount(
+                                      title: language.tip,
+                                      description: '',
+                                      subTitle: payment!.driverTips.toString()),
+                                if (payment != null) SizedBox(height: 16),
+                                if (riderModel!.extraCharges!.isNotEmpty)
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(language.extraCharges,
+                                          style: boldTextStyle()),
+                                      SizedBox(height: 8),
+                                      ...riderModel!.extraCharges!.map((e) {
+                                        return Padding(
+                                          padding:
+                                          EdgeInsets.only(top: 4, bottom: 4),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                  e.key
+                                                      .validate()
+                                                      .capitalizeFirstLetter(),
+                                                  style: primaryTextStyle()),
+                                              Text(
+                                                  appStore.currencyPosition == LEFT
+                                                      ? '${appStore.currencyCode} ${e.value}'
+                                                      : '${e.value} ${appStore.currencyCode}',
+                                                  style: primaryTextStyle()),
+                                            ],
+                                          ),
+                                        );
+                                      }).toList()
+                                    ],
+                                  ),
+                                if (riderModel!.couponData != null &&
+                                    riderModel!.couponDiscount != 0)
+                                  SizedBox(height: 8),
+                                if (riderModel!.couponData != null &&
+                                    riderModel!.couponDiscount != 0)
+                                  Row(
+                                    mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(language.couponDiscount,
-                                      style:
+                                    children: [
+                                      Text(language.couponDiscount,
+                                          style:
                                           primaryTextStyle(color: Colors.red)),
-                                  Text(
-                                      appStore.currencyPosition == LEFT
-                                          ? '-${appStore.currencyCode} ${riderModel!.couponDiscount.toString()}'
-                                          : '-${riderModel!.couponDiscount.toString()} ${appStore.currencyCode}',
-                                      style: primaryTextStyle(
-                                          color: Colors.green)),
-                                ],
-                              ),
-                            Divider(height: 30, thickness: 1),
-                            totalCount(
-                                title: language.total,
-                                description: '',
-                                subTitle: '${riderModel!.subtotal}',
-                                isTotal: true),
-                          ],
-                        ),
-                      ):Column(
-                        children: [
-                          loaderWidget(),
-                          const SizedBox(height: 10,),
-                          Text("Waiting for the user to confirm",style: TextStyle(color: primaryColor,fontSize: 18),)
-                        ],
-                      ),
+                                      Text(
+                                          appStore.currencyPosition == LEFT
+                                              ? '-${appStore.currencyCode} ${riderModel!.couponDiscount.toString()}'
+                                              : '-${riderModel!.couponDiscount.toString()} ${appStore.currencyCode}',
+                                          style: primaryTextStyle(
+                                              color: Colors.green)),
+                                    ],
+                                  ),
+                                Divider(height: 30, thickness: 1),
+                                totalCount(
+                                    title: language.total,
+                                    description: '',
+                                    subTitle: '${riderModel!.subtotal}',
+                                    isTotal: true),
+                              ],
+                            ),
+                          )
+                        }else ...{
+                          Column(
+                            children: [
+                              loaderWidget(),
+                              const SizedBox(height: 10,),
+                              Text("Waiting for the user to confirm",style: TextStyle(color: primaryColor,fontSize: 18),)
+                            ],
+                          ),
+                        }
+                      }else ...{
+                        Center(child:
+                        Text('Payment data not found'))
+                      }
+
                     ],
                   ),
                 ),
