@@ -50,6 +50,7 @@ Future<LoginResponse> signUpApi(Map request) async {
   return await handleResponse(response).then((json) async {
     var loginResponse = LoginResponse.fromJson(json);
     if (loginResponse.data != null) {
+      print("ueutyrueyr ${loginResponse.data!.isVerifiedDriver}");
       await sharedPref.setString(TOKEN, loginResponse.data!.apiToken.validate());
       await sharedPref.setString(USER_TYPE, loginResponse.data!.userType.validate());
       await sharedPref.setString(FIRST_NAME, loginResponse.data!.firstName.validate());
@@ -65,7 +66,6 @@ Future<LoginResponse> signUpApi(Map request) async {
       await sharedPref.setString(UID, loginResponse.data!.uid.validate());
       await sharedPref.setString(LOGIN_TYPE, loginResponse.data!.loginType.validate());
       await sharedPref.setInt(IS_Verified_Driver, loginResponse.data!.isVerifiedDriver ?? 0);
-
       await appStore.setLoggedIn(true);
       await appStore.setUserEmail(loginResponse.data!.email.validate());
       await appStore.setUserProfile(loginResponse.data!.profileImage.validate());
@@ -93,6 +93,7 @@ Future<LoginResponse> logInApi(Map request, {bool isSocialLogin = false}) async 
   return await handleResponse(response).then((json) async {
     var loginResponse = LoginResponse.fromJson(json);
     if (loginResponse.data != null) {
+      print("sdlkdfg ${loginResponse.data!.isVerifiedDriver}");
       await sharedPref.setString(TOKEN, loginResponse.data!.apiToken.validate());
       await sharedPref.setString(USER_TYPE, loginResponse.data!.userType.validate());
       await sharedPref.setString(FIRST_NAME, loginResponse.data!.firstName.validate());

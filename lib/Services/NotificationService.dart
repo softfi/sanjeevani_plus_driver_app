@@ -14,7 +14,7 @@ class NotificationService {
       'headings': {
         'en': title,
       },
-      'contents': {
+        'contents': {
         'en': content,
       },
       'big_picture': image.validate().isNotEmpty ? image.validate() : '',

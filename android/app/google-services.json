@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "63826262653",
+    "firebase_url": "https://ambulance-new-2706f-default-rtdb.firebaseio.com",
     "project_id": "ambulance-new-2706f",
     "storage_bucket": "ambulance-new-2706f.appspot.com"
   },
@@ -22,6 +23,14 @@
           }
         },
         {
+          "client_id": "63826262653-33tjsasjegeg2u6sci1cs1rcc3ckt9ah.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ambulance.driver",
+            "certificate_hash": "e77ce235df05d6aea1a27849dc4083928b8b4d46"
+          }
+        },
+        {
           "client_id": "63826262653-dvmdb7pa9lje6t3g7fi0e359rp036u3p.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -35,6 +44,14 @@
           "android_info": {
             "package_name": "com.ambulance.driver",
             "certificate_hash": "fec3619ae2f9312161c82f8056edde02afc69e0b"
+          }
+        },
+        {
+          "client_id": "63826262653-utk6usq1q2knjhac8hsdedan9jesbl0o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ambulance.driver",
+            "certificate_hash": "a02a8c9a4969d6ee68200f7fbd675d8239144bdb"
           }
         },
         {
@@ -72,6 +89,30 @@
           "android_info": {
             "package_name": "com.ambulance.rider",
             "certificate_hash": "73686ca1fc0fb26adc6ecfcadfbb2138f3013d49"
+          }
+        },
+        {
+          "client_id": "63826262653-l2mg1divspr83lao7ns5u8jnp40k3tsd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ambulance.rider",
+            "certificate_hash": "a02a8c9a4969d6ee68200f7fbd675d8239144bdb"
+          }
+        },
+        {
+          "client_id": "63826262653-n2vsd8hnvrna4ctss60hoed5bgr13d6f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ambulance.rider",
+            "certificate_hash": "e77ce235df05d6aea1a27849dc4083928b8b4d46"
+          }
+        },
+        {
+          "client_id": "63826262653-ov8lui5itpmb48ps5chdagfgfb6bthfu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ambulance.rider",
+            "certificate_hash": "239660101fec5be2c7e953cde8c8178d11f7087a"
           }
         },
         {

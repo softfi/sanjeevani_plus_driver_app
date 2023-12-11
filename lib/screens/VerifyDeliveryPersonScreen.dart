@@ -94,8 +94,11 @@ class VerifyDeliveryPersonScreenState
       driverDocumentList.clear();
       driverDocumentList.addAll(value.data!);
       uploadedDocList.clear();
-      driverDocumentList.forEach((element) {
+      driverDocumentList.forEach((element) async {
         uploadedDocList.add(element.documentId!);
+
+        ///this line added by dharmendra for update driver-verified
+        await sharedPref.setInt(IS_Verified_Driver, element.isVerified?? 0);
       });
       appStore.setLoading(false);
 
@@ -325,6 +328,7 @@ class VerifyDeliveryPersonScreenState
                       itemCount: driverDocumentList.length,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (_, index) {
+
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
