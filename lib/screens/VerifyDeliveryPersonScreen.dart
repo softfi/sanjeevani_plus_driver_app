@@ -93,12 +93,13 @@ class VerifyDeliveryPersonScreenState
     await getDriverDocumentList().then((value) {
       driverDocumentList.clear();
       driverDocumentList.addAll(value.data!);
-      uploadedDocList.clear();
+       uploadedDocList.clear();
       driverDocumentList.forEach((element) async {
         uploadedDocList.add(element.documentId!);
-
         ///this line added by dharmendra for update driver-verified
-        await sharedPref.setInt(IS_Verified_Driver, element.isVerified?? 0);
+        await sharedPref.setInt(
+            IS_Verified_Driver, value.isDriverVeryfied ?? 0);
+        setState(() { });
       });
       appStore.setLoading(false);
 
@@ -131,8 +132,10 @@ class VerifyDeliveryPersonScreenState
       multiPartRequest,
       onSuccess: (data) async {
         Fluttertoast.showToast(msg: "Document uploaded successfully");
-        Future.microtask(() => Future.delayed(Duration(seconds: 2))).then((value) {
-          Fluttertoast.showToast(msg: "Documents Under verification. We will notify you");
+        Future.microtask(() => Future.delayed(Duration(seconds: 2)))
+            .then((value) {
+          Fluttertoast.showToast(
+              msg: "Documents Under verification. We will notify you");
         });
         await DriverDocument();
       },
@@ -231,7 +234,8 @@ class VerifyDeliveryPersonScreenState
         return Stack(
           children: [
             RefreshIndicator(
-              onRefresh: () async{
+              onRefresh: () async {
+                await Future.delayed(Duration(seconds: 3));
                 init();
               },
               child: SingleChildScrollView(
@@ -259,14 +263,16 @@ class VerifyDeliveryPersonScreenState
                                 return DropdownMenuItem(
                                   value: e,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
                                           Text(e.name.validate(),
                                               style: primaryTextStyle()),
                                           SizedBox(width: 4),
-                                          Text('${e.isRequired == 1 ? '*' : ''}',
+                                          Text(
+                                              '${e.isRequired == 1 ? '*' : ''}',
                                               style: boldTextStyle(
                                                   color: Colors.red))
                                         ],
@@ -290,7 +296,8 @@ class VerifyDeliveryPersonScreenState
                             child: inkWellWidget(
                               onTap: () {
                                 if (isExpire == 1) {
-                                  getMultipleFile(docId, isExpire == 0 ? null : 1,
+                                  getMultipleFile(
+                                      docId, isExpire == 0 ? null : 1,
                                       dateTime: selectedDate);
                                 } else {
                                   getMultipleFile(
@@ -328,7 +335,6 @@ class VerifyDeliveryPersonScreenState
                       itemCount: driverDocumentList.length,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (_, index) {
-
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -347,20 +353,24 @@ class VerifyDeliveryPersonScreenState
                                     borderRadius:
                                         BorderRadius.circular(defaultRadius),
                                     child: commonCachedNetworkImage(
-                                         driverDocumentList[index].driverDocument!,
+                                        driverDocumentList[index]
+                                            .driverDocument!,
                                         height: 200,
-                                        width: MediaQuery.of(context).size.width,
+                                        width:
+                                            MediaQuery.of(context).size.width,
                                         fit: BoxFit.cover),
                                   ),
                                   SizedBox(height: 16),
                                   Row(
                                     children: [
-                                      driverDocumentList[index].expireDate != null
+                                      driverDocumentList[index].expireDate !=
+                                              null
                                           ? Text(language.expireDate,
                                               style: boldTextStyle())
                                           : Text(''),
                                       SizedBox(width: 8),
-                                      driverDocumentList[index].expireDate != null
+                                      driverDocumentList[index].expireDate !=
+                                              null
                                           ? Expanded(
                                               child: Text(
                                                   driverDocumentList[index]
@@ -377,15 +387,15 @@ class VerifyDeliveryPersonScreenState
                                         child: inkWellWidget(
                                           onTap: () {
                                             if (isExpire == 1) {
-                                              getMultipleFile(
-                                                  docId, isExpire == 0 ? null : 1,
+                                              getMultipleFile(docId,
+                                                  isExpire == 0 ? null : 1,
                                                   dateTime: selectedDate,
                                                   updateId:
                                                       driverDocumentList[index]
                                                           .id);
                                             } else {
-                                              getMultipleFile(
-                                                  docId, isExpire == 0 ? null : 1,
+                                              getMultipleFile(docId,
+                                                  isExpire == 0 ? null : 1,
                                                   updateId:
                                                       driverDocumentList[index]
                                                           .id);
@@ -399,8 +409,8 @@ class VerifyDeliveryPersonScreenState
                                                   primaryColor.withOpacity(0.2),
                                               borderRadius:
                                                   BorderRadius.circular(4),
-                                              border:
-                                                  Border.all(color: primaryColor),
+                                              border: Border.all(
+                                                  color: primaryColor),
                                             ),
                                             child: Icon(Icons.edit,
                                                 color: primaryColor, size: 14),
@@ -421,7 +431,8 @@ class VerifyDeliveryPersonScreenState
                                               onAccept:
                                                   (BuildContext context) async {
                                                 await deleteDoc(
-                                                    driverDocumentList[index].id);
+                                                    driverDocumentList[index]
+                                                        .id);
                                               },
                                               positiveText: language.yes,
                                               negativeText: language.no,
@@ -432,7 +443,8 @@ class VerifyDeliveryPersonScreenState
                                             height: 25,
                                             width: 25,
                                             decoration: BoxDecoration(
-                                              color: Colors.red.withOpacity(0.2),
+                                              color:
+                                                  Colors.red.withOpacity(0.2),
                                               borderRadius:
                                                   BorderRadius.circular(4),
                                               border:
@@ -451,18 +463,18 @@ class VerifyDeliveryPersonScreenState
                                         child: Icon(Icons.verified_user,
                                             color: Colors.green),
                                       ),
-
                                     ],
                                   ),
                                   SizedBox(height: 8),
                                   Visibility(
-                                    visible: driverDocumentList[index]
-                                        .isVerified ==
-                                        0,
+                                    visible:
+                                        driverDocumentList[index].isVerified ==
+                                            0,
                                     child: SizedBox(
-                                      child: Text(language.verificationPending,style: TextStyle(
-                                          color: primaryColor
-                                      ),),
+                                      child: Text(
+                                        language.verificationPending,
+                                        style: TextStyle(color: primaryColor),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -487,9 +499,9 @@ class VerifyDeliveryPersonScreenState
           ],
         );
       }),
-      bottomNavigationBar: driverDocumentList.isNotEmpty
+      bottomNavigationBar: uploadedDocList.isNotEmpty
           ? Visibility(
-              visible: widget.isShow,
+              visible: true,
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: AppButtonWidget(

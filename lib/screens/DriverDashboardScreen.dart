@@ -26,6 +26,8 @@ import '../components/DrawerWidget.dart';
 import '../components/ExtraChargesWidget.dart';
 import '../main.dart';
 import '../model/CurrentRequestModel.dart';
+import '../model/DocumentListModel.dart';
+import '../model/DriverDocumentList.dart';
 import '../model/ExtraChargeRequestModel.dart';
 import '../model/RiderModel.dart';
 import '../model/UserDetailModel.dart';
@@ -108,12 +110,40 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
   @override
   void initState() {
     super.initState();
+
     init();
     locationPermission();
+    // DriverDocument();
+    // getDocument();
     log(servicesListData);
     if (sharedPref.getInt(IS_ONLINE) == 1) {
       isOffLine = true;
     }
+  }
+
+  List<DriverDocumentModel> driverDocumentList = [];
+  List<int> uploadedDocList = [];
+
+  ///Document List
+  Future<void> DriverDocument() async {
+    appStore.setLoading(true);
+    await getDriverDocumentList().then((value) {
+      driverDocumentList.clear();
+      driverDocumentList.addAll(value.data!);
+      // uploadedDocList.clear();
+      driverDocumentList.forEach((element) async {
+        uploadedDocList.add(element.documentId!);
+        ///this line added by dharmendra for update driver-verified
+        await sharedPref.setInt(
+            IS_Verified_Driver, value.isDriverVeryfied ?? 0);
+        setState(() { });
+      });
+      appStore.setLoading(false);
+
+      setState(() {});
+    }).catchError((error) {
+      log(error.toString());
+    });
   }
 
   Timer? newTimer;
@@ -1074,13 +1104,20 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
         body: RefreshIndicator(
           color: Colors.white,
           backgroundColor: Colors.red,
-          strokeWidth: 4.0,
+          strokeWidth: 2.0,
           onRefresh: () async {
-           initState();
+            await Future.delayed(Duration(seconds: 3));
+            await DriverDocument();
+            print("sdfhskdjhfkjsdhjsdfgsd");
+            print("0890890890890890 ${sharedPref.getInt(IS_Verified_Driver)}");
           },
           child: sharedPref.getInt(IS_Verified_Driver) == 0
-              ? ListView(physics: AlwaysScrollableScrollPhysics(),
-                  children: [Center(heightFactor: 2.7,child: DocVerificationPendingPage())],
+              ? ListView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  children: [
+                    Center(
+                        heightFactor: 2.7, child: DocVerificationPendingPage())
+                  ],
                 )
               : driverLocation != null
                   ? Stack(

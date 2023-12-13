@@ -3,13 +3,15 @@ import 'package:taxi_driver/model/PaginationModel.dart';
 class DriverDocumentList {
   List<DriverDocumentModel>? data;
   PaginationModel? pagination;
+  int isDriverVeryfied;
 
-  DriverDocumentList({this.data, this.pagination});
+  DriverDocumentList({this.data, this.pagination,required this.isDriverVeryfied});
 
   factory DriverDocumentList.fromJson(Map<String, dynamic> json) {
     return DriverDocumentList(
       data: json['data'] != null ? (json['data'] as List).map((i) => DriverDocumentModel.fromJson(i)).toList() : null,
       pagination: json['pagination'] != null ? PaginationModel.fromJson(json['pagination']) : null,
+      isDriverVeryfied: json['is_verified_driver'],
     );
   }
 
