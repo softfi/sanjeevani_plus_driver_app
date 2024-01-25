@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -31,12 +30,8 @@ import 'model/LanguageDataModel.dart';
 import 'screens/NoInternetScreen.dart';
 import 'utils/Extensions/app_common.dart';
 
-
-
-
 //oneSingal appID //5db8f727-73d4-4850-8a85-e617cef3a12c
 //oneSignal Api Key //NWYxMDEwNmEtNGYwMi00OTk0LWE4MDctMGFiYTRlZTRiNWY2
-
 
 AppStore appStore = AppStore();
 late SharedPreferences sharedPref;
@@ -67,7 +62,8 @@ Future<void> initialize({
   String? defaultLanguage,
 }) async {
   localeLanguageList = aLocaleLanguageList ?? [];
-  selectedLanguageDataModel = getSelectedLanguageModel(defaultLanguage: default_Language);
+  selectedLanguageDataModel =
+      getSelectedLanguageModel(defaultLanguage: default_Language);
 }
 
 void main() async {
@@ -80,16 +76,21 @@ void main() async {
   await initialize(aLocaleLanguageList: languageList());
   appStore.setLanguage(default_Language);
 
-  await appStore.setLoggedIn(sharedPref.getBool(IS_LOGGED_IN) ?? false, isInitializing: true);
-  await appStore.setUserId(sharedPref.getInt(USER_ID) ?? 0, isInitializing: true);
-  await appStore.setUserEmail(sharedPref.getString(USER_EMAIL).validate(), isInitialization: true);
-  await appStore.setUserProfile(sharedPref.getString(USER_PROFILE_PHOTO).validate());
+  await appStore.setLoggedIn(sharedPref.getBool(IS_LOGGED_IN) ?? false,
+      isInitializing: true);
+  await appStore.setUserId(sharedPref.getInt(USER_ID) ?? 0,
+      isInitializing: true);
+  await appStore.setUserEmail(sharedPref.getString(USER_EMAIL).validate(),
+      isInitialization: true);
+  await appStore
+      .setUserProfile(sharedPref.getString(USER_PROFILE_PHOTO).validate());
 
   await OneSignal.shared.setAppId(mOneSignalAppIdDriver);
   OneSignal.shared.consentGranted(true);
   saveOneSignalPlayerId();
   OneSignal.shared.promptUserForPushNotificationPermission();
-  OneSignal.shared.setNotificationWillShowInForegroundHandler((OSNotificationReceivedEvent event) {
+  OneSignal.shared.setNotificationWillShowInForegroundHandler(
+      (OSNotificationReceivedEvent event) {
     event.complete(event.notification);
   });
   if (appStore.isLoggedIn) {
@@ -99,7 +100,6 @@ void main() async {
       }
     });
   }
-
 
   FirebaseService_Location().getLocationPermission();
   runApp(const MyApp());
@@ -143,7 +143,8 @@ class _MyAppState extends State<MyApp> {
       if (e == ConnectivityResult.none) {
         log('not connected');
         isCurrentlyOnNoInternet = true;
-        launchScreen(navigatorKey.currentState!.overlay!.context, NoInternetScreen());
+        launchScreen(
+            navigatorKey.currentState!.overlay!.context, NoInternetScreen());
       } else {
         if (isCurrentlyOnNoInternet) {
           Navigator.pop(navigatorKey.currentState!.overlay!.context);
@@ -178,7 +179,8 @@ class _MyAppState extends State<MyApp> {
           GlobalCupertinoLocalizations.delegate,
         ],
         localeResolutionCallback: (locale, supportedLocales) => locale,
-        locale: Locale(appStore.selectedLanguage.validate(value: default_Language)),
+        locale:
+            Locale(appStore.selectedLanguage.validate(value: default_Language)),
       );
     });
   }
@@ -186,7 +188,8 @@ class _MyAppState extends State<MyApp> {
 
 class MyBehavior extends ScrollBehavior {
   @override
-  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
     return child;
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:taxi_driver/utils/Extensions/Loader.dart';
 import 'package:taxi_driver/utils/Extensions/StringExtensions.dart';
+
 import '../main.dart';
 import 'Colors.dart';
 import 'Constants.dart';
@@ -223,8 +225,9 @@ Widget emptyWidget() {
 Future<void> saveOneSignalPlayerId() async {
   await OneSignal.shared.getDeviceState().then((value) async {
     if (value!.userId.validate().isNotEmpty)
-      print("lksfj kjsdfnfd fnd fnfdnf d fdf d fdjfd dbf  fs df     ${value.userId.validate()}");
-      await sharedPref.setString(PLAYER_ID, value.userId.validate());
+      print(
+          "lksfj kjsdfnfd fnd fnfdnf d fdf d fdjfd dbf  fs df     ${value.userId.validate()}");
+    await sharedPref.setString(PLAYER_ID, value.userId.validate());
   });
 }
 
