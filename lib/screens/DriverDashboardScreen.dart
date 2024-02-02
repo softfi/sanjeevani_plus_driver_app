@@ -26,7 +26,6 @@ import '../components/DrawerWidget.dart';
 import '../components/ExtraChargesWidget.dart';
 import '../main.dart';
 import '../model/CurrentRequestModel.dart';
-import '../model/DocumentListModel.dart';
 import '../model/DriverDocumentList.dart';
 import '../model/ExtraChargeRequestModel.dart';
 import '../model/RiderModel.dart';
@@ -50,7 +49,6 @@ import 'LocationPermissionScreen.dart';
 import 'MyRidesScreen.dart';
 import 'MyWalletScreen.dart';
 import 'NotificationScreen.dart';
-import 'ReviewScreen.dart';
 import 'SettingScreen.dart';
 import 'VehicleScreen.dart';
 
@@ -133,10 +131,11 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
       // uploadedDocList.clear();
       driverDocumentList.forEach((element) async {
         uploadedDocList.add(element.documentId!);
+
         ///this line added by dharmendra for update driver-verified
         await sharedPref.setInt(
             IS_Verified_Driver, value.isDriverVeryfied ?? 0);
-        setState(() { });
+        setState(() {});
       });
       appStore.setLoading(false);
 
@@ -303,7 +302,6 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
       } else if (status == ServiceStatus.enabled) {
         locationEnable = true;
         startLocationTracking();
-
         if (Navigator.canPop(navigatorKey.currentState!.overlay!.context)) {
           Navigator.pop(navigatorKey.currentState!.overlay!.context);
         }
@@ -351,7 +349,6 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
           } else {
             demoTimer?.cancel();
           }
-          print("90999090909090909090099090900");
           if (duration == 0) {
             duration = startTime;
             timer.cancel();
@@ -592,9 +589,9 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
     appStore.setLoading(true);
     Map req = {
       "id": servicesListData!.id,
-      "service_id": servicesListData!.serviceId,
-      "end_latitude": driverLocation!.latitude,
-      "end_longitude": driverLocation!.longitude,
+      "service_id": servicesListData?.serviceId,
+      "end_latitude": driverLocation?.latitude,
+      "end_longitude": driverLocation?.longitude,
       "end_address": endLocationAddress,
       "distance": totalDistance,
       if (extraChargeList.isNotEmpty) "extra_charges": extraChargeList,
@@ -678,23 +675,43 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
             );
   }
 
+  Future<void> startLocationTracking1() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+    if (permission == LocationPermission.denied) {
+      // Handle the case where the user has denied permission
+      return;
+    }
+
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    driverLocation = LatLng(position.latitude, position.longitude);
+    setState(() {});
+    print(
+        'Latitudeerewrter: ${position.latitude}, Longitudeertretert: ${position.longitude}');
+  }
+
   /// Get Current Location
   Future<void> startLocationTracking() async {
+    print("this is called dk1");
     _polyLines.clear();
     polylineCoordinates.clear();
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((value) async {
       await Geolocator.isLocationServiceEnabled().then((value) async {
         if (locationEnable) {
           positionStream = Geolocator.getPositionStream().listen((event) async {
             if (appStore.isLoggedIn) {
               driverLocation = LatLng(event.latitude, event.longitude);
+              print("current location $driverLocation}");
               Map req = {
                 "status": "active",
                 "latitude": driverLocation!.latitude.toString(),
                 "longitude": driverLocation!.longitude.toString(),
               };
-
               await updateStatus(req).then((value) {
                 setState(() {});
               }).catchError((error) {
@@ -922,6 +939,7 @@ class DriverDashboardScreenState extends State<DriverDashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("sdjfhskjfhhjsdf $driverLocation");
     return WillPopScope(
       onWillPop: () async {
         Map req = {

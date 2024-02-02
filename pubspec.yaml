@@ -47,8 +47,8 @@ dependencies:
   otp_text_field: ^1.1.3
 
   # MAP
-  geolocator: any
-  geocoding: ^2.0.5
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
   google_maps_flutter: ^2.2.3
   flutter_polyline_points: ^1.0.0
   location: ^4.4.0
